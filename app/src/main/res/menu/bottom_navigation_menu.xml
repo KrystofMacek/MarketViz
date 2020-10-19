@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/overviewFragment"
+        android:icon="@drawable/ic_search_foreground"
+        android:title="Markets"/>
+
+    <item android:id="@+id/searchFragment"
+        android:icon="@drawable/ic_search_foreground"
+        android:title="Search"/>
+
+    <item android:id="@+id/watchlistFragment"
+        android:icon="@drawable/ic_search_foreground"
+        android:title="Watchlist"/>
+
+    <item  android:id="@+id/portfolioFragment"
+        android:icon="@drawable/ic_search_foreground"
+        android:title="Portfolio"
+        />
+
+</menu>

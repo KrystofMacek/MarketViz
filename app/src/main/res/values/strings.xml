@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MarketViz</string>
+
+    <!-- Fragment Overview -->
+    <string name="fragment_overview_heading_lw">Last Viewed</string>
+    <string name="fragment_overview_heading_m">Markets</string>
+</resources>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <data>
+        <import type="android.view.View"/>
+        <!--
+            <variable
+                name="quote"
+                type="...database.Quote"
+            />
+         -->
+    </data>
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/item_quote_padding">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/iq_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="AAPL"
+            android:padding="@dimen/item_quote_textView_padding"
+            android:textSize="@dimen/item_quote_textSize_big"
+            android:textStyle="bold"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/iq_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iq_symbol"
+            tools:text="Apple Inc"
+            android:padding="@dimen/item_quote_textView_padding"
+            android:textSize="@dimen/item_quote_textSize_small"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/iq_lastPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3,300.23 USD"
+            android:padding="@dimen/item_quote_textView_padding"
+            android:textSize="@dimen/item_quote_textSize_big"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/iq_netChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iq_percentChange"
+            app:layout_constraintTop_toBottomOf="@+id/iq_lastPrice"
+            tools:text="+45"
+            android:padding="@dimen/item_quote_textView_padding"
+            android:textSize="@dimen/item_quote_textSize_small"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/iq_percentChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iq_lastPrice"
+            tools:text="(0.23%)"
+            android:padding="@dimen/item_quote_textView_padding"
+            android:textSize="@dimen/item_quote_textSize_small"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

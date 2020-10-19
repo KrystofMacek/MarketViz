@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragments.portfolio.PortfolioFragment">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/portfolio_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_portfolio_label_PL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current P/L:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                android:textSize="@dimen/fragment_portfolio_text_size"
+                android:padding="@dimen/fragment_portfolio_text_padding"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_portfolio_num_PL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@id/fragment_portfolio_label_PL"
+                app:layout_constraintBaseline_toBaselineOf="@id/fragment_portfolio_label_PL"
+                android:text="47$"
+
+                android:textSize="@dimen/fragment_portfolio_text_size"
+                android:padding="@dimen/fragment_portfolio_text_padding"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_portfolio_label_Pos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Positions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_portfolio_label_PL"
+
+                android:textSize="@dimen/fragment_portfolio_text_size"
+                android:padding="@dimen/fragment_portfolio_text_padding"/>
+            <com.google.android.material.textview.MaterialTextView
+
+                android:id="@+id/fragment_portfolio_num_Pos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintBaseline_toBaselineOf="@id/fragment_portfolio_label_Pos"
+                app:layout_constraintLeft_toRightOf="@id/fragment_portfolio_label_Pos"
+                android:text="4"
+
+                android:textSize="@dimen/fragment_portfolio_text_size"
+                android:padding="@dimen/fragment_portfolio_text_padding"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_portfolio_num_totalPL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="189$"
+
+                android:textSize="@dimen/fragment_portfolio_text_size"
+                android:padding="@dimen/fragment_portfolio_text_padding"
+
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_portfolio_label_totalPL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/fragment_portfolio_text_padding"
+                android:text="Total P/L:"
+
+                android:textSize="@dimen/fragment_portfolio_text_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/fragment_portfolio_num_totalPL"
+
+                app:layout_constraintEnd_toStartOf="@+id/fragment_portfolio_num_totalPL" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_portfolio_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/portfolio_card" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
