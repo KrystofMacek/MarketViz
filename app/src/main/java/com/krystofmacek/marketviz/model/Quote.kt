@@ -33,5 +33,6 @@ data class Quote(
     val symbol: String,
     val tradeTimestamp: String,
     val unitCode: String,
-    val volume: Int
+    val volume: Int,
+    var category: Int?
 ) : Serializable

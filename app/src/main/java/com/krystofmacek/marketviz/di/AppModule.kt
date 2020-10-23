@@ -68,7 +68,9 @@ object AppModule {
         app,
         QuoteDatabase::class.java,
         DB_NAME
-    ).build()
+    )
+        .fallbackToDestructiveMigration()
+        .build()
 
      // DAO
     @Provides
