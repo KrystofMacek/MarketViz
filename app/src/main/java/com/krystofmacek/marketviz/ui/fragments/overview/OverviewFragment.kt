@@ -14,6 +14,6 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        viewModel.getQuotes()
+        viewModel.getQuotes()
     }
 }

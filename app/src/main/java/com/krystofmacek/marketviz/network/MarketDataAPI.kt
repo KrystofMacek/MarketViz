@@ -7,13 +7,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MarketDataAPI {
-
-
     @GET("/getQuote${BuildConfig.MARKET_DATA_API_KEY}")
     suspend fun getQuotes(
         @Query("symbols")
         symbol: String,
         @Query("fields")
         fields: String
-    ):Response<QuoteResponse>
+    ): Response<QuoteResponse>
 }

@@ -8,14 +8,12 @@ import com.krystofmacek.marketviz.utils.IndexListGenerator
 import kotlinx.coroutines.launch
 
 class OverviewViewModel @ViewModelInject constructor(
-    private val repository: MarketDataRepository,
-    private val indicesGen: IndexListGenerator
+    private val repository: MarketDataRepository
 ): ViewModel() {
 
     fun getQuotes() {
         viewModelScope.launch {
-            val response = repository.getQuotes(quotes = indicesGen.getIndices())
-            val int = 34
+            val response = repository.loadIndices()
         }
     }
 

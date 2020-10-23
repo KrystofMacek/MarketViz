@@ -13,7 +13,7 @@ data class Resource<out T> (
                 message = null
             )
 
-        fun <T> error(data: T?, message: String): Resource<T> =
+        fun <T> error(message: String): Resource<T> =
             Resource(
                 status = Status.ERROR,
                 data = null,
