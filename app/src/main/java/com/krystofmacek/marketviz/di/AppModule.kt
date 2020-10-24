@@ -2,6 +2,12 @@ package com.krystofmacek.marketviz.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.krystofmacek.marketviz.BuildConfig
@@ -12,6 +18,7 @@ import com.krystofmacek.marketviz.network.MarketDataService
 import com.krystofmacek.marketviz.repository.MarketDataRepository
 import com.krystofmacek.marketviz.utils.Constants.DB_NAME
 import com.krystofmacek.marketviz.utils.IndexListGenerator
+import com.krystofmacek.marketviz.workers.IndicesDataUpdateWorker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -69,6 +76,24 @@ object AppModule {
         app,
         QuoteDatabase::class.java,
         DB_NAME
+    ).addCallback(
+        /** Override onCreate - Populate database when created for the first time */
+        object : RoomDatabase.Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                WorkManager.getInstance(app)
+                    .beginWith(
+                        OneTimeWorkRequest
+                            .Builder(IndicesDataUpdateWorker::class.java)
+                            .setConstraints(
+                                Constraints.Builder()
+                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                .build())
+                            .build()
+                    )
+                    .enqueue()
+            }
+        }
     )
         .fallbackToDestructiveMigration()
         .build()

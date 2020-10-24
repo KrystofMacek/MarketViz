@@ -9,6 +9,8 @@ import androidx.work.WorkerParameters
 import com.krystofmacek.marketviz.repository.MarketDataRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import java.text.SimpleDateFormat
+import java.util.*
 
 class IndicesDataUpdateWorker @WorkerInject constructor(
     @Assisted context: Context,
@@ -21,9 +23,9 @@ class IndicesDataUpdateWorker @WorkerInject constructor(
         try {
             val jobs = async {
                 repository.loadIndices()
+                Log.i("WORK MANAGER", "INDICES LOADED at @${SimpleDateFormat().format(Date(System.currentTimeMillis()))}")
             }
             jobs.await()
-
             Result.success()
         } catch (e: Throwable) {
             Result.failure()

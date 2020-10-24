@@ -1,12 +1,10 @@
 package com.krystofmacek.marketviz.repository
 
-import android.util.Log
 import com.krystofmacek.marketviz.db.QuoteDao
 import com.krystofmacek.marketviz.model.Quote
 import com.krystofmacek.marketviz.network.MarketDataService
 import com.krystofmacek.marketviz.utils.Constants.MARKET_INDEX
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 

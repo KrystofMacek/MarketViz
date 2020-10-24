@@ -3,7 +3,6 @@ package com.krystofmacek.marketviz.ui.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
@@ -11,7 +10,7 @@ import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.workers.IndicesDataUpdateWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import java.time.Duration
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -23,25 +22,24 @@ class MainActivity : AppCompatActivity() {
         val navigationController = nav_host_fragment.findNavController()
         bottomNavigationView.setupWithNavController(navigationController)
 
-        /** Setup Work Manager */
+        /** Setup Periodic Work Manager Requests*/
         WorkManager
             .getInstance(applicationContext)
-            .enqueue(buildWorkRequests())
-
+            .enqueueUniquePeriodicWork(
+                "Indices Update",
+                ExistingPeriodicWorkPolicy.REPLACE,
+                buildIndicesUpdateRequest()
+            )
     }
 
-    private fun buildWorkRequests(): List<WorkRequest> {
-        val indicesUpdateRequest =
-            PeriodicWorkRequestBuilder<IndicesDataUpdateWorker>(
-                repeatInterval = Duration.ofHours(2),
-                flexTimeInterval = Duration.ofMinutes(10)
+    private fun buildIndicesUpdateRequest(): PeriodicWorkRequest {
+        return PeriodicWorkRequestBuilder<IndicesDataUpdateWorker>(
+                repeatInterval = 2, TimeUnit.HOURS, flexTimeInterval = 10, TimeUnit.MINUTES
             ).setConstraints(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
             ).build()
-
-        return listOf(indicesUpdateRequest)
     }
 
 }
