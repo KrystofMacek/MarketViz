@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface QuoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuote(quote: Quote)
+    
 
     @Query("SELECT * FROM quotes WHERE category = $MARKET_INDEX")
     fun getAllIndices(): Flow<List<Quote>>

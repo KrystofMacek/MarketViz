@@ -17,12 +17,4 @@ class OverviewViewModel @ViewModelInject constructor(
 
     val marketIndices: LiveData<List<Quote>> = repository.getAllIndices().asLiveData()
 
-    fun getQuotes() {
-        viewModelScope.launch {
-            val response = repository.loadIndices()
-        }
-    }
-
-
-
 }

@@ -9,8 +9,8 @@ import java.io.Serializable
 )
 data class Quote(
 
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
+    @PrimaryKey
+    val symbol: String,
     val close: Double,
     val dayCode: String,
     val dollarVolume: Double,
@@ -30,7 +30,6 @@ data class Quote(
     val percentChange: Double,
     val previousVolume: Int,
     val serverTimestamp: String,
-    val symbol: String,
     val tradeTimestamp: String,
     val unitCode: String,
     val volume: Int,

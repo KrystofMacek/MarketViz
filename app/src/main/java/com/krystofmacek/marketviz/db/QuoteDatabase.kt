@@ -6,7 +6,7 @@ import com.krystofmacek.marketviz.model.Quote
 
 @Database(
     entities = [Quote::class],
-    version = 3
+    version = 4
 )
 abstract class QuoteDatabase : RoomDatabase() {
     abstract fun getQuoteDao(): QuoteDao

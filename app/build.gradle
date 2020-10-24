@@ -102,4 +102,10 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
     kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
+    implementation 'androidx.hilt:hilt-work:1.0.0-alpha02'
+
+    // Work Manager Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:2.4.0"
+
+
 }

@@ -9,6 +9,7 @@ import com.krystofmacek.marketviz.db.QuoteDao
 import com.krystofmacek.marketviz.db.QuoteDatabase
 import com.krystofmacek.marketviz.network.MarketDataAPI
 import com.krystofmacek.marketviz.network.MarketDataService
+import com.krystofmacek.marketviz.repository.MarketDataRepository
 import com.krystofmacek.marketviz.utils.Constants.DB_NAME
 import com.krystofmacek.marketviz.utils.IndexListGenerator
 import dagger.Module
@@ -76,5 +77,12 @@ object AppModule {
     @Provides
     @Singleton
     fun provideQuoteDao(db: QuoteDatabase): QuoteDao = db.getQuoteDao()
+
+    @Provides
+    @Singleton
+    fun provideRepository(
+        service: MarketDataService,
+        dao: QuoteDao
+    ): MarketDataRepository = MarketDataRepository(service, dao)
 
 }
