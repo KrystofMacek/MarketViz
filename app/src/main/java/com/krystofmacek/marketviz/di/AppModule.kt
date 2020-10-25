@@ -16,6 +16,7 @@ import com.krystofmacek.marketviz.db.QuoteDatabase
 import com.krystofmacek.marketviz.network.MarketDataAPI
 import com.krystofmacek.marketviz.network.MarketDataService
 import com.krystofmacek.marketviz.repository.MarketDataRepository
+import com.krystofmacek.marketviz.ui.adapters.QuoteAdapter
 import com.krystofmacek.marketviz.utils.Constants.DB_NAME
 import com.krystofmacek.marketviz.utils.IndexListGenerator
 import com.krystofmacek.marketviz.workers.IndicesDataUpdateWorker
@@ -109,5 +110,10 @@ object AppModule {
         service: MarketDataService,
         dao: QuoteDao
     ): MarketDataRepository = MarketDataRepository(service, dao)
+
+    // Adapters
+    @Provides
+    @Singleton
+    fun provideAdapter(): QuoteAdapter = QuoteAdapter()
 
 }
