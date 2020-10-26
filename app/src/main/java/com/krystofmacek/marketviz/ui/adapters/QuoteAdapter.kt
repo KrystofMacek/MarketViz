@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.krystofmacek.marketviz.R
-import com.krystofmacek.marketviz.model.Quote
+import com.krystofmacek.marketviz.model.marketdata.Quote
 import kotlinx.android.synthetic.main.item_quote.view.*
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -19,7 +19,8 @@ class QuoteAdapter: RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder>() {
     /** Recycler View Methods */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteViewHolder {
         return QuoteViewHolder(
-            LayoutInflater.from(parent.context).inflate(
+            LayoutInflater.from(parent.context)
+                .inflate(
                 R.layout.item_quote,
                 parent,
                 false
@@ -48,9 +49,8 @@ class QuoteAdapter: RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder>() {
 
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
+    override fun getItemCount(): Int = differ.currentList.size
+
 
     /** Diff Util */
     private val diffCallback = object : DiffUtil.ItemCallback<Quote>() {

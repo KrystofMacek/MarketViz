@@ -21,6 +21,7 @@ android {
 
         buildConfigField("String", "MARKET_DATA_API_KEY", market_data_api_key)
         buildConfigField("String", "MARKET_DATA_BASE_URL", market_data_base_url)
+        buildConfigField("String", "SYMBOL_AUTOFILL_BASE_URL", symbol_autofill_base_url)
     }
 
     buildTypes {

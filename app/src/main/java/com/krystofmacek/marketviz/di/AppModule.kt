@@ -15,10 +15,14 @@ import com.krystofmacek.marketviz.db.QuoteDao
 import com.krystofmacek.marketviz.db.QuoteDatabase
 import com.krystofmacek.marketviz.network.MarketDataAPI
 import com.krystofmacek.marketviz.network.MarketDataService
+import com.krystofmacek.marketviz.network.SymbolAutoCompleteAPI
+import com.krystofmacek.marketviz.network.SymbolAutoCompleteService
 import com.krystofmacek.marketviz.repository.MarketDataRepository
+import com.krystofmacek.marketviz.ui.adapters.AutoCompleteAdapter
 import com.krystofmacek.marketviz.ui.adapters.QuoteAdapter
 import com.krystofmacek.marketviz.utils.Constants.DB_NAME
 import com.krystofmacek.marketviz.utils.IndexListGenerator
+import com.krystofmacek.marketviz.utils.NetworkHelper
 import com.krystofmacek.marketviz.workers.IndicesDataUpdateWorker
 import dagger.Module
 import dagger.Provides
@@ -29,11 +33,17 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object AppModule {
+
+    // utils
+    @Provides
+    @Singleton
+    fun provideNetworkHelper(@ApplicationContext app: Context): NetworkHelper = NetworkHelper(app)
 
     @Provides
     @Singleton
@@ -50,6 +60,7 @@ object AppModule {
     // Retrofit instance
     @Provides
     @Singleton
+    @Named("MarketData")
     fun provideMarketDataRetrofitInstance(
         okHttpClient: OkHttpClient
     ): Retrofit =
@@ -61,12 +72,34 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMarketDataApi(retrofit: Retrofit): MarketDataAPI = retrofit.create(MarketDataAPI::class.java)
+    @Named("AutoComplete")
+    fun provideAutoCompleteRetrofitInstance(
+        okHttpClient: OkHttpClient
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.SYMBOL_AUTOFILL_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+
 
     @Provides
     @Singleton
-    fun provideMarketDataService(api: MarketDataAPI, generator: IndexListGenerator, @ApplicationContext app: Context) = MarketDataService(api, generator, app)
+    fun provideMarketDataApi(@Named("MarketData")retrofit: Retrofit): MarketDataAPI = retrofit.create(MarketDataAPI::class.java)
 
+    @Provides
+    @Singleton
+    fun provideMarketDataService(nh: NetworkHelper, api: MarketDataAPI, generator: IndexListGenerator, @ApplicationContext app: Context) = MarketDataService(nh, api, generator, app)
+
+
+    @Provides
+    @Singleton
+    fun provideSymbolAutoCompleteApi(@Named("AutoComplete")retrofit: Retrofit): SymbolAutoCompleteAPI = retrofit.create(SymbolAutoCompleteAPI::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSymbolAutoCompleteService(nh: NetworkHelper, api: SymbolAutoCompleteAPI) = SymbolAutoCompleteService(nh, api)
 
     // Room Database
     @Provides
@@ -107,13 +140,21 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRepository(
-        service: MarketDataService,
+        dataService: MarketDataService,
+        autocompleteService: SymbolAutoCompleteService,
         dao: QuoteDao
-    ): MarketDataRepository = MarketDataRepository(service, dao)
+    ): MarketDataRepository = MarketDataRepository(dataService,autocompleteService, dao)
 
     // Adapters
     @Provides
     @Singleton
-    fun provideAdapter(): QuoteAdapter = QuoteAdapter()
+    fun provideQuoteAdapter(): QuoteAdapter = QuoteAdapter()
+
+
+    @Provides
+    @Singleton
+    fun provideAutocompleteAdapter(): AutoCompleteAdapter = AutoCompleteAdapter()
+
+
 
 }

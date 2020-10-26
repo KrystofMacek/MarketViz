@@ -1,4 +1,4 @@
-package com.krystofmacek.marketviz.model
+package com.krystofmacek.marketviz.model.marketdata
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

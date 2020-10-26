@@ -1,36 +1,27 @@
 package com.krystofmacek.marketviz.network
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkCapabilities.TRANSPORT_WIFI
+import com.krystofmacek.marketviz.model.autocomplete.Symbols
 import com.krystofmacek.marketviz.model.marketdata.QuoteResponse
-import com.krystofmacek.marketviz.utils.Constants.DEFAULT_FIELDS
-import com.krystofmacek.marketviz.utils.IndexListGenerator
 import com.krystofmacek.marketviz.utils.NetworkHelper
 import com.krystofmacek.marketviz.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import java.lang.Exception
 import javax.inject.Inject
 
-class MarketDataService @Inject constructor(
+class SymbolAutoCompleteService @Inject constructor(
     val networkHelper: NetworkHelper,
-    val api: MarketDataAPI,
-    val gen: IndexListGenerator,
-    val app: Context
+    val api: SymbolAutoCompleteAPI
 ) {
 
-    suspend fun loadIndices(): Resource<QuoteResponse> {
-        return loadIndices(DEFAULT_FIELDS)
+
+
+    suspend fun getSymbolsFor(keyword: String): Resource<Symbols> {
+        return safeApiCall { api.getAutoCompleteSymbols(keyword) }
     }
 
-    private suspend fun loadIndices(fields: String): Resource<QuoteResponse> {
-        val indices = gen.getIndices()
-        return safeApiCall { api.getQuotes(indices, fields) }
 
-    }
-
-    private inline fun safeApiCall(responseFunction: () -> Response<QuoteResponse>): Resource<QuoteResponse> {
+    private inline fun safeApiCall(responseFunction: () -> Response<Symbols>): Resource<Symbols> {
 
         return if(networkHelper.checkInternetConnection()) {
             try {
@@ -44,7 +35,7 @@ class MarketDataService @Inject constructor(
         }
     }
 
-    private fun handleResult(response: Response<QuoteResponse>): Resource<QuoteResponse> {
+    private fun handleResult(response: Response<Symbols>): Resource<Symbols> {
         if(response.isSuccessful) {
             response.body()?.let {
                 return Resource.success(it)
@@ -52,7 +43,5 @@ class MarketDataService @Inject constructor(
         }
         return Resource.error(message = response.message())
     }
-
-
 
 }

@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.krystofmacek.marketviz.model.Quote
+import com.krystofmacek.marketviz.model.marketdata.Quote
 import com.krystofmacek.marketviz.utils.Constants.MARKET_INDEX
 import kotlinx.coroutines.flow.Flow
 
