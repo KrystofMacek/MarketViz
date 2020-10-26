@@ -66,7 +66,6 @@ class MarketDataService @Inject constructor(
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
             else -> false
         }
-
     }
 
 }
