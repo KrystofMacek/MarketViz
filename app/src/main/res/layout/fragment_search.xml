@@ -17,15 +17,22 @@
         tools:context=".ui.fragments.search.SearchFragment"
         android:padding="@dimen/fragment_padding">
 
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/fragment_search_symbol_inputT"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:padding="@dimen/fragment_padding"
+            android:text="@={viewModel.symbolKeyWord}"
+            android:textSize="@dimen/item_quote_textSize_big"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@={viewModel.symbolKeyWord}"
+            android:inputType="text"
+            android:hint="@string/search_input_hint"
+            android:imeOptions="actionSearch"
             />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_search_autocomplete_recycler"

@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.databinding.FragmentSearchBinding
@@ -26,6 +29,7 @@ class SearchFragment : Fragment(R.layout.fragment_search),
 
     @Inject
     lateinit var autoCompleteAdapter: AutoCompleteAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +54,17 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             autoCompleteAdapter.onItemSelectedListener = listener
             this.adapter = autoCompleteAdapter
         }
+
+        fragment_search_symbol_inputT.setOnEditorActionListener { v, actionId, _ ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    searchQuote(v.text.toString())
+                    true
+                }
+                else -> false
+            }
+        }
+
         subscribeObservers()
     }
 
@@ -61,6 +76,15 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         searchViewModel.autoCompletedList.observe(viewLifecycleOwner, Observer {
             autoCompleteAdapter.submitList(it)
         })
+
+        searchViewModel.navigateToDetails.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                this.findNavController().navigate(
+                    SearchFragmentDirections.actionSearchFragmentToDetailsFragment()
+                )
+                searchViewModel.doneNavigating()
+            }
+        })
     }
 
 
@@ -69,6 +93,11 @@ class SearchFragment : Fragment(R.layout.fragment_search),
         searchViewModel.symbolKeyWord.postValue(
            selectedItem?.symbol
         )
+        searchQuote(selectedItem?.symbol!!)
+    }
+
+    private fun searchQuote(quote: String) {
+        searchViewModel.searchQuote(quote)
     }
 
 

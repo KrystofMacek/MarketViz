@@ -16,11 +16,27 @@ class SearchViewModel @ViewModelInject constructor(
 
     var autoCompletedList: MutableLiveData<Symbols> = MutableLiveData()
 
+    private val _navigateToDetails = MutableLiveData<Boolean?>()
+    val navigateToDetails: LiveData<Boolean?>
+        get() = _navigateToDetails
+
+    fun doneNavigating() {
+        _navigateToDetails.value = null
+    }
+
     fun getAutoCompleteSymbols(keyword: String) {
         viewModelScope.launch {
             val list = repository.getAutoCompleteSymbolsFor(keyword)
             autoCompletedList.postValue(list)
         }
+    }
+
+    fun searchQuote(quote: String) {
+        viewModelScope.launch {
+            repository.deleteLastSearch()
+            repository.searchQuote(quote)
+        }
+        _navigateToDetails.value = true
     }
 
 

@@ -51,7 +51,13 @@ class AutoCompleteAdapter(
         val item = differ.currentList[position]
 
         holder.itemView.apply {
-            ia_name.text = item.name
+
+            var name = item.name
+            if (name.length > 22) {
+                name = "${name.substring(0, 22)}."
+            }
+
+            ia_name.text = name
             ia_symbol.text = item.symbol
         }
         holder.itemView.setOnClickListener(holder)

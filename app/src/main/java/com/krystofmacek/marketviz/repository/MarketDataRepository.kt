@@ -2,15 +2,12 @@ package com.krystofmacek.marketviz.repository
 
 import com.krystofmacek.marketviz.db.QuoteDao
 import com.krystofmacek.marketviz.model.autocomplete.Symbols
-import com.krystofmacek.marketviz.model.autocomplete.SymbolsItem
 import com.krystofmacek.marketviz.model.marketdata.Quote
 import com.krystofmacek.marketviz.network.MarketDataService
-import com.krystofmacek.marketviz.network.SymbolAutoCompleteAPI
 import com.krystofmacek.marketviz.network.SymbolAutoCompleteService
 import com.krystofmacek.marketviz.utils.Constants.MARKET_INDEX
+import com.krystofmacek.marketviz.utils.Constants.SEARCH_RESULT
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 
@@ -37,6 +34,21 @@ class MarketDataRepository @Inject constructor(
             return it
         }
         return Symbols()
+    }
+
+    suspend fun searchQuote(quote: String) {
+        marketDataService.searchQuote(quote).data?.let {
+            val quote = it.quotes.first().apply {
+                category = SEARCH_RESULT
+            }
+            quoteDao.insertQuote(quote)
+        }
+    }
+
+    fun getSearchedQuote(): Flow<Quote> = quoteDao.getSearchedQuote()
+
+    suspend fun deleteLastSearch() {
+        quoteDao.deleteLastSearch()
     }
 
 }

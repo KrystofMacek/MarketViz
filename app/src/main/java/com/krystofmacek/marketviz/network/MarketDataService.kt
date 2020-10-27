@@ -20,6 +20,9 @@ class MarketDataService @Inject constructor(
     val app: Context
 ) {
 
+
+
+
     suspend fun loadIndices(): Resource<QuoteResponse> {
         return loadIndices(DEFAULT_FIELDS)
     }
@@ -28,6 +31,10 @@ class MarketDataService @Inject constructor(
         val indices = gen.getIndices()
         return safeApiCall { api.getQuotes(indices, fields) }
 
+    }
+
+    suspend fun searchQuote(quote: String): Resource<QuoteResponse> {
+        return safeApiCall { api.getQuotes(quote, DEFAULT_FIELDS) }
     }
 
     private inline fun safeApiCall(responseFunction: () -> Response<QuoteResponse>): Resource<QuoteResponse> {
@@ -52,6 +59,7 @@ class MarketDataService @Inject constructor(
         }
         return Resource.error(message = response.message())
     }
+
 
 
 

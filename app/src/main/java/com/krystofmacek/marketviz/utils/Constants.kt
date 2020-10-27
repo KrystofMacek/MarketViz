@@ -7,4 +7,5 @@ object Constants {
 
     // network
     const val MARKET_INDEX = 1
+    const val SEARCH_RESULT = 2
 }

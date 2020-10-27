@@ -14,8 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:textSize="@dimen/item_quote_textSize_big"
-        android:padding="@dimen/item_quote_textView_padding"
-        android:layout_marginStart="@dimen/margin_10"/>
+        android:padding="@dimen/item_quote_textView_padding"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -27,7 +26,6 @@
         app:layout_constraintBaseline_toBaselineOf="@id/ia_symbol"
         android:textSize="@dimen/item_quote_textSize_big"
         android:padding="@dimen/item_quote_textView_padding"
-        android:layout_marginEnd="@dimen/margin_10"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
