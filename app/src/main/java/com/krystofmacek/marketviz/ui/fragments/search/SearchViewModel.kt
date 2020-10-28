@@ -33,7 +33,6 @@ class SearchViewModel @ViewModelInject constructor(
 
     fun searchQuote(quote: String) {
         viewModelScope.launch {
-            repository.deleteLastSearch()
             repository.searchQuote(quote)
         }
         _navigateToDetails.value = true

@@ -2,6 +2,7 @@ package com.krystofmacek.marketviz.repository
 
 import com.krystofmacek.marketviz.db.QuoteDao
 import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
+import com.krystofmacek.marketviz.model.databasemodels.SearchQuoteResult
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import com.krystofmacek.marketviz.network.MarketDataService
@@ -17,6 +18,7 @@ class MarketDataRepository @Inject constructor(
     private val symbolAutoCompleteService: SymbolAutoCompleteService,
     private val quoteDao: QuoteDao
 ) {
+
 
     suspend fun loadIndices() {
         marketDataService.loadIndices().data?.let {
@@ -36,6 +38,7 @@ class MarketDataRepository @Inject constructor(
 
     fun getAllIndices(): Flow<List<MarketIndex>> = quoteDao.getMarketIndices()
 
+
     suspend fun getAutoCompleteSymbolsFor(keyword: String): Symbols {
         symbolAutoCompleteService.getSymbolsFor(keyword).data?.let {
             return it
@@ -43,19 +46,22 @@ class MarketDataRepository @Inject constructor(
         return Symbols()
     }
 
-    suspend fun searchQuote(quote: String) {
-        marketDataService.searchQuote(quote).data?.let {
-            val quote = it.quotes.first().apply {
-                category = SEARCH_RESULT
-            }
-            quoteDao.insertQuote(quote)
+    suspend fun searchQuote(keyword: String) {
+        marketDataService.searchQuote(keyword).data?.let {
+            val quote = it.quotes.first()
+            val searchQuoteResult = SearchQuoteResult(
+                symbol = quote.symbol,
+                name = quote.name,
+                lastPrice = quote.lastPrice,
+                netChange = quote.netChange,
+                percentageChange = quote.percentChange
+            )
+            quoteDao.clearSearchResultTable()
+            quoteDao.insertSearchQuoteResult(searchQuoteResult)
         }
     }
 
-    fun getSearchedQuote(): Flow<Quote> = quoteDao.getSearchedQuote()
+    fun getSearchedQuote(): Flow<SearchQuoteResult> = quoteDao.getSearchedQuote()
 
-    suspend fun deleteLastSearch() {
-        quoteDao.deleteLastSearch()
-    }
 
 }
