@@ -2,10 +2,8 @@ package com.krystofmacek.marketviz.db
 
 import androidx.room.*
 import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
-import com.krystofmacek.marketviz.model.databasemodels.SearchQuoteResult
+import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
-import com.krystofmacek.marketviz.utils.Constants.MARKET_INDEX
-import com.krystofmacek.marketviz.utils.Constants.SEARCH_RESULT
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -23,11 +21,11 @@ interface QuoteDao {
 
     // Search
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSearchQuoteResult(result: SearchQuoteResult)
+    suspend fun insertDetailsQuote(result: DetailsQuote)
 
-    @Query("DELETE FROM searched_quote_table")
-    suspend fun clearSearchResultTable()
+    @Query("DELETE FROM details_quote_table")
+    suspend fun clearDetailsTable()
 
-    @Query("SELECT * FROM searched_quote_table")
-    fun getSearchedQuote(): Flow<SearchQuoteResult>
+    @Query("SELECT * FROM details_quote_table")
+    fun getDetailsQuote(): Flow<DetailsQuote>
 }

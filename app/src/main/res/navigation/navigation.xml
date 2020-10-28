@@ -6,7 +6,8 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.krystofmacek.marketviz.ui.fragments.details.DetailsFragment"
-        android:label="DetailsFragment" />
+        android:label="DetailsFragment"/>
+
     <fragment
         android:id="@+id/overviewFragment"
         android:name="com.krystofmacek.marketviz.ui.fragments.overview.OverviewFragment"

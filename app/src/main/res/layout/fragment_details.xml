@@ -21,7 +21,7 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{viewModel.searchedQuote.name}"
+        android:text="@{viewModel.detailsQuote.name}"
         android:textSize="68sp"
 
         app:layout_constraintBottom_toBottomOf="parent"
