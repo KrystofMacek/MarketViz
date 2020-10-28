@@ -1,10 +1,7 @@
 package com.krystofmacek.marketviz.network
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkCapabilities.TRANSPORT_WIFI
-import com.krystofmacek.marketviz.model.marketdata.QuoteResponse
+import com.krystofmacek.marketviz.model.networkmodels.marketdata.QuoteResponse
 import com.krystofmacek.marketviz.utils.Constants.DEFAULT_FIELDS
 import com.krystofmacek.marketviz.utils.IndexListGenerator
 import com.krystofmacek.marketviz.utils.NetworkHelper

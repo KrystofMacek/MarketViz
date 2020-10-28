@@ -1,4 +1,4 @@
-package com.krystofmacek.marketviz.model.marketdata
+package com.krystofmacek.marketviz.model.networkmodels.marketdata
 
 import com.google.gson.annotations.SerializedName
 

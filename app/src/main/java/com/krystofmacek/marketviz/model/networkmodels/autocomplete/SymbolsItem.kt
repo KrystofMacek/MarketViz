@@ -1,4 +1,4 @@
-package com.krystofmacek.marketviz.model.autocomplete
+package com.krystofmacek.marketviz.model.networkmodels.autocomplete
 
 data class SymbolsItem(
     val name: String,

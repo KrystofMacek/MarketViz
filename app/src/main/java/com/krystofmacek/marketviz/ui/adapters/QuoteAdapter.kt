@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.krystofmacek.marketviz.R
-import com.krystofmacek.marketviz.model.marketdata.Quote
+import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import kotlinx.android.synthetic.main.item_quote.view.*
 import java.math.BigDecimal
 import java.math.RoundingMode

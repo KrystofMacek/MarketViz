@@ -1,10 +1,8 @@
 package com.krystofmacek.marketviz.network
 
-import com.krystofmacek.marketviz.model.autocomplete.Symbols
-import com.krystofmacek.marketviz.model.marketdata.QuoteResponse
+import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.utils.NetworkHelper
 import com.krystofmacek.marketviz.utils.Resource
-import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import java.lang.Exception
 import javax.inject.Inject

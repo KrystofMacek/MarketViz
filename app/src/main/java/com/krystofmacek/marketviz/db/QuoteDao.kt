@@ -1,7 +1,7 @@
 package com.krystofmacek.marketviz.db
 
 import androidx.room.*
-import com.krystofmacek.marketviz.model.marketdata.Quote
+import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import com.krystofmacek.marketviz.utils.Constants.MARKET_INDEX
 import com.krystofmacek.marketviz.utils.Constants.SEARCH_RESULT
 import kotlinx.coroutines.flow.Flow

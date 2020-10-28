@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.krystofmacek.marketviz.R
-import com.krystofmacek.marketviz.model.autocomplete.SymbolsItem
+import com.krystofmacek.marketviz.model.networkmodels.autocomplete.SymbolsItem
 import kotlinx.android.synthetic.main.item_autocomplete.view.*
 
 class AutoCompleteAdapter(

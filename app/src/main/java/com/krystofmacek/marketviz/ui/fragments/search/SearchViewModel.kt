@@ -3,7 +3,7 @@ package com.krystofmacek.marketviz.ui.fragments.search
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.krystofmacek.marketviz.model.autocomplete.Symbols
+import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.repository.MarketDataRepository
 import kotlinx.coroutines.launch
 

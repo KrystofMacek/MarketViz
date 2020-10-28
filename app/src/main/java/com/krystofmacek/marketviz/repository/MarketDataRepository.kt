@@ -1,8 +1,8 @@
 package com.krystofmacek.marketviz.repository
 
 import com.krystofmacek.marketviz.db.QuoteDao
-import com.krystofmacek.marketviz.model.autocomplete.Symbols
-import com.krystofmacek.marketviz.model.marketdata.Quote
+import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
+import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import com.krystofmacek.marketviz.network.MarketDataService
 import com.krystofmacek.marketviz.network.SymbolAutoCompleteService
 import com.krystofmacek.marketviz.utils.Constants.MARKET_INDEX

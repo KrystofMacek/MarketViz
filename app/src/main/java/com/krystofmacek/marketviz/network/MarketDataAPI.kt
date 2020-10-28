@@ -1,7 +1,7 @@
 package com.krystofmacek.marketviz.network
 
 import com.krystofmacek.marketviz.BuildConfig
-import com.krystofmacek.marketviz.model.marketdata.QuoteResponse
+import com.krystofmacek.marketviz.model.networkmodels.marketdata.QuoteResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
