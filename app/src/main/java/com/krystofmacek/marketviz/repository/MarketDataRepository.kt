@@ -1,6 +1,7 @@
 package com.krystofmacek.marketviz.repository
 
 import com.krystofmacek.marketviz.db.QuoteDao
+import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import com.krystofmacek.marketviz.network.MarketDataService
@@ -20,14 +21,20 @@ class MarketDataRepository @Inject constructor(
     suspend fun loadIndices() {
         marketDataService.loadIndices().data?.let {
             for (quote in it.quotes) {
-                quote.category = MARKET_INDEX
-                quoteDao.insertQuote(quote)
+
+                val index = MarketIndex(
+                    symbol = quote.symbol,
+                    name = quote.name,
+                    lastPrice = quote.lastPrice,
+                    netChange = quote.netChange,
+                    percentageChange = quote.percentChange
+                )
+                quoteDao.insertMarketIndex(index)
             }
         }
     }
 
-    // TODO: Create seperate quote model for DB and for Network
-    fun getAllIndices(): Flow<List<Quote>> = quoteDao.getAllIndices()
+    fun getAllIndices(): Flow<List<MarketIndex>> = quoteDao.getMarketIndices()
 
     suspend fun getAutoCompleteSymbolsFor(keyword: String): Symbols {
         symbolAutoCompleteService.getSymbolsFor(keyword).data?.let {

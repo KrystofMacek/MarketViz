@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.krystofmacek.marketviz.R
-import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
+import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
 import kotlinx.android.synthetic.main.item_quote.view.*
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class QuoteAdapter: RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder>() {
+class MarketIndexAdapter: RecyclerView.Adapter<MarketIndexAdapter.QuoteViewHolder>() {
 
     inner class QuoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -29,20 +29,20 @@ class QuoteAdapter: RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: QuoteViewHolder, position: Int) {
-        val quote = differ.currentList[position]
+        val marketIndex = differ.currentList[position]
 
         holder.itemView.apply {
 
-            iq_symbol.text = quote.symbol
-            iq_name.text = quote.name
+            iq_symbol.text = marketIndex.symbol
+            iq_name.text = marketIndex.name
 
-            val lastPrice = "${quote.lastPrice}"
+            val lastPrice = "${marketIndex.lastPrice}"
             iq_lastPrice.text = lastPrice
 
-            val netChange = "${BigDecimal(quote.netChange).setScale(2, RoundingMode.HALF_EVEN)}"
+            val netChange = "${BigDecimal(marketIndex.netChange).setScale(2, RoundingMode.HALF_EVEN)}"
             iq_netChange.text = netChange
 
-            val percChange = "${quote.percentChange}%"
+            val percChange = "${marketIndex.percentageChange}%"
             iq_percentChange.text = percChange
 
         }
@@ -53,17 +53,17 @@ class QuoteAdapter: RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder>() {
 
 
     /** Diff Util */
-    private val diffCallback = object : DiffUtil.ItemCallback<Quote>() {
-        override fun areItemsTheSame(oldItem: Quote, newItem: Quote): Boolean {
+    private val diffCallback = object : DiffUtil.ItemCallback<MarketIndex>() {
+        override fun areItemsTheSame(oldItem: MarketIndex, newItem: MarketIndex): Boolean {
             return oldItem.symbol == newItem.symbol
         }
 
-        override fun areContentsTheSame(oldItem: Quote, newItem: Quote): Boolean {
+        override fun areContentsTheSame(oldItem: MarketIndex, newItem: MarketIndex): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
-    fun submitList(list: List<Quote>) = differ.submitList(list)
+    fun submitList(list: List<MarketIndex>) = differ.submitList(list)
 
 }

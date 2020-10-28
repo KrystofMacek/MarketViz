@@ -23,7 +23,6 @@ class IndicesDataUpdateWorker @WorkerInject constructor(
         try {
             val jobs = async {
                 repository.loadIndices()
-                Log.i("WORK MANAGER", "INDICES LOADED at @${SimpleDateFormat().format(Date(System.currentTimeMillis()))}")
             }
             jobs.await()
             Result.success()
