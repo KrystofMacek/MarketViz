@@ -6,7 +6,11 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.krystofmacek.marketviz.ui.fragments.details.DetailsFragment"
-        android:label="DetailsFragment"/>
+        android:label="DetailsFragment">
+        <action
+            android:id="@+id/action_detailsFragment_to_tradeDialog"
+            app:destination="@id/tradeDialog" />
+    </fragment>
 
     <fragment
         android:id="@+id/overviewFragment"
@@ -40,4 +44,9 @@
             android:id="@+id/action_portfolioFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/tradeDialog"
+        android:name="com.krystofmacek.marketviz.ui.dialogs.TradeDialog"
+        android:label="TradeDialog" />
+
 </navigation>

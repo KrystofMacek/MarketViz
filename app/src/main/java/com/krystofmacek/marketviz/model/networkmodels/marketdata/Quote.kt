@@ -33,5 +33,7 @@ data class Quote(
     val tradeTimestamp: String,
     val unitCode: String,
     val volume: Int,
+    val avgVolume: Int,
+    val previousClose: Double,
     var category: Int?
 ) : Serializable

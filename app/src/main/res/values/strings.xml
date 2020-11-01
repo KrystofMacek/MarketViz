@@ -5,4 +5,6 @@
     <string name="fragment_overview_heading_lw">Last Viewed</string>
     <string name="fragment_overview_heading_m">Markets</string>
     <string name="search_input_hint">tesla</string>
+    <string name="td_default_num">1</string>
+    <string name="td_total_label">TOTAL</string>
 </resources>

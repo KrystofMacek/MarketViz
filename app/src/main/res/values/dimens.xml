@@ -15,4 +15,13 @@
     <!-- PORTFOLIO -->
     <dimen name="fragment_portfolio_text_padding">10dp</dimen>
     <dimen name="fragment_portfolio_text_size">20sp</dimen>
+    <dimen name="details_card_padding">12dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="details_small_text">14sp</dimen>
+    <dimen name="details_large_text">22sp</dimen>
+    <dimen name="details_medium_text">16sp</dimen>
+    <dimen name="details_big_text">18sp</dimen>
+    <dimen name="td_textSize">25sp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="td_padding">40dp</dimen>
 </resources>

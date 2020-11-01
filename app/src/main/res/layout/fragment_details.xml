@@ -18,16 +18,243 @@
     android:layout_height="match_parent"
     >
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{viewModel.detailsQuote.name}"
-        android:textSize="68sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/details_card_padding">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/details_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.detailsQuote.symbol}"
+                android:textSize="@dimen/details_large_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/details_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.detailsQuote.name}"
+                android:textSize="@dimen/details_medium_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/details_symbol" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="@dimen/details_card_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_current_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="@{Double.toString(viewModel.detailsQuote.lastPrice)}"
+            android:textSize="@dimen/details_big_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2443" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_price_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_10"
+            android:paddingLeft="@dimen/padding_10"
+            android:paddingTop="@dimen/padding_10"
+            android:paddingBottom="@dimen/padding_10"
+            android:text="@{Double.toString(viewModel.detailsQuote.netChange)}"
+            android:textSize="@dimen/details_big_text"
+            app:layout_constraintStart_toEndOf="@id/details_current_price"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="+23.23" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_percentage_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{` (` + Double.toString(viewModel.detailsQuote.percentageChange) + `%)`}"
+            android:textSize="@dimen/details_big_text"
+            app:layout_constraintBaseline_toBaselineOf="@id/details_price_change"
+            app:layout_constraintStart_toEndOf="@id/details_price_change"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="(23%)" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_date_of_last_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="@{viewModel.detailsQuote.serverTimestamp}"
+            android:textSize="@dimen/details_big_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="20/32/12" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_price_change" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_previous_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="Previous Close: "
+            android:textSize="@dimen/details_small_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_previous_close_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="@{Double.toString(viewModel.detailsQuote.previousClose)}"
+            android:textSize="@dimen/details_small_text"
+            app:layout_constraintEnd_toStartOf="@+id/details_previous_open"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_previous_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="Today's Open: "
+            android:textSize="@dimen/details_small_text"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_previous_open_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="@{Double.toString(viewModel.detailsQuote.open)}"
+            android:textSize="@dimen/details_small_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="Volume: "
+            android:textSize="@dimen/details_small_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_previous_close" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_volume_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="@{Integer.toString(viewModel.detailsQuote.volume)}"
+            android:textSize="@dimen/details_small_text"
+            app:layout_constraintEnd_toStartOf="@+id/details_avg_volume"
+            app:layout_constraintTop_toBottomOf="@id/details_previous_close" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_avg_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="Avg Volume: "
+            android:textSize="@dimen/details_small_text"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/details_previous_open" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/details_avg_volume_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_10"
+            android:text="@{Integer.toString(viewModel.detailsQuote.avgVolume)}"
+            android:textSize="@dimen/details_small_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_previous_open" />
+
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_volume" />
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toTopOf="@+id/materialButton2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/materialButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="ADD To Watchlist"
+            android:textSize="@dimen/details_medium_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/materialButton2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/materialButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Buy / Sell"
+            android:textSize="@dimen/details_medium_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/materialButton"
+            android:onClick="@{() -> viewModel.toggleDialog()}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

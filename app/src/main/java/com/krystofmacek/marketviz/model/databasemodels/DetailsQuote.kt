@@ -1,6 +1,5 @@
 package com.krystofmacek.marketviz.model.databasemodels
 
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
@@ -12,5 +11,10 @@ class DetailsQuote (
     val name: String,
     val lastPrice: Double,
     val netChange: Double,
-    val percentageChange: Double
+    val percentageChange: Double,
+    val serverTimestamp: String,
+    val open: Double,
+    val volume: Int,
+    val avgVolume: Int,
+    val previousClose: Double
 ): Serializable

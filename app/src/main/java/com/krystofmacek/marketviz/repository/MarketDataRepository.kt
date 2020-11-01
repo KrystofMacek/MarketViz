@@ -6,7 +6,14 @@ import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.network.MarketDataService
 import com.krystofmacek.marketviz.network.SymbolAutoCompleteService
+import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.coroutines.flow.Flow
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.inject.Inject
 
 
@@ -24,8 +31,8 @@ class MarketDataRepository @Inject constructor(
                 val index = MarketIndex(
                     symbol = quote.symbol,
                     name = quote.name,
-                    lastPrice = quote.lastPrice,
-                    netChange = quote.netChange,
+                    lastPrice = Utils.round(quote.lastPrice),
+                    netChange = Utils.round(quote.netChange),
                     percentageChange = quote.percentChange
                 )
                 quoteDao.insertMarketIndex(index)
@@ -49,9 +56,14 @@ class MarketDataRepository @Inject constructor(
             val searchQuoteResult = DetailsQuote(
                 symbol = quote.symbol,
                 name = quote.name,
-                lastPrice = quote.lastPrice,
-                netChange = quote.netChange,
-                percentageChange = quote.percentChange
+                lastPrice = Utils.round(quote.lastPrice),
+                netChange = Utils.round(quote.netChange),
+                percentageChange = quote.percentChange,
+                serverTimestamp = LocalDate.now().toString(),
+                previousClose = Utils.round(quote.previousClose),
+                open = Utils.round(quote.open),
+                volume = quote.volume,
+                avgVolume = quote.avgVolume
             )
             quoteDao.clearDetailsTable()
             quoteDao.insertDetailsQuote(searchQuoteResult)

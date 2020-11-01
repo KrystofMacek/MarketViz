@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragments.details.DetailsFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.krystofmacek.marketviz.ui.fragments.details.DetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/td_padding">
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SHARES"
+            android:textSize="@dimen/td_textSize"
+            app:layout_constraintBaseline_toBaselineOf="@id/td_num_shares"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/td_num_shares"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:text="@={viewModel.inputNumOfShares}"
+            android:textAlignment="center"
+            android:textSize="@dimen/td_textSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/td_label_cp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:text="CURRENT PRICE"
+            android:textSize="@dimen/td_textSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{Double.toString(viewModel.detailsQuote.lastPrice)}"
+            android:textSize="@dimen/td_textSize"
+            app:layout_constraintBaseline_toBaselineOf="@+id/td_label_cp"
+            app:layout_constraintEnd_toEndOf="@+id/td_num_shares"
+            app:layout_constraintStart_toStartOf="@+id/td_num_shares" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/td_label_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:text="@string/td_total_label"
+            android:textSize="@dimen/td_textSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/td_label_cp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{Double.toString(viewModel.totalPrice)}"
+            android:textSize="@dimen/td_textSize"
+            app:layout_constraintBaseline_toBaselineOf="@+id/td_label_total"
+            app:layout_constraintEnd_toEndOf="@+id/td_num_shares"
+            app:layout_constraintStart_toStartOf="@+id/td_num_shares" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/td_btn_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="BUY"
+            android:textSize="@dimen/td_textSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/td_btn_short"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/td_btn_short"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="SHORT"
+            android:textSize="@dimen/td_textSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/td_btn_buy"
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="191dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
