@@ -1,6 +1,7 @@
 package com.krystofmacek.marketviz.ui.fragments.details
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.Bindable
 import androidx.hilt.lifecycle.ViewModelInject
@@ -27,25 +28,64 @@ class DetailsViewModel @ViewModelInject constructor(
     val addToWatchlist: LiveData<Boolean>
         get() = _addToWatchlist
 
+    private val _positionCreated = MutableLiveData(false)
+    val positionCreated: LiveData<Boolean>
+        get() = _positionCreated
+
     /** Opens a dialog for creating a position */
     fun toggleDialog() {
-        _navigateToDialog.value?.let {
-            _navigateToDialog.postValue(!it)
-        }
+        _navigateToDialog.postValue(_navigateToDialog.value?.not())
     }
 
     /** Adds the stock to watchlist */
     fun addToWatchList() {
         viewModelScope.launch {
             repository.addToWatchlist(detailsQuote.value)
-            _addToWatchlist.postValue(true)
+            toggleAddedToWatchlist()
         }
     }
 
     fun longStock() {
+        inputNumOfShares.value?.let {
+            try {
+                val shares = it.toInt()
+                if(shares > 0) {
+                    viewModelScope.launch {
+                        repository.longStock(detailsQuote.value, shares)
+                        togglePositionCreated()
+                    }
+                }
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            }
+        }
 
     }
-    fun shortStock() {
 
+    fun shortStock() {
+        inputNumOfShares.value?.let {
+            try {
+                val shares = it.toInt()
+                if(shares > 0) {
+                    viewModelScope.launch {
+                        repository.shortStock(detailsQuote.value, shares)
+                        togglePositionCreated()
+                    }
+                }
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            }
+        }
+    }
+
+    private fun togglePositionCreated() {
+        _positionCreated.value?.let {
+            _positionCreated.postValue(!it)
+        }
+    }
+    private fun toggleAddedToWatchlist() {
+        _addToWatchlist.value?.let {
+            _addToWatchlist.postValue(!it)
+        }
     }
 }

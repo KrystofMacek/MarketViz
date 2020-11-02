@@ -9,6 +9,8 @@ import com.krystofmacek.marketviz.model.databasemodels.WatchlistQuote
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.network.MarketDataService
 import com.krystofmacek.marketviz.network.SymbolAutoCompleteService
+import com.krystofmacek.marketviz.utils.Constants.LONG_POSITION
+import com.krystofmacek.marketviz.utils.Constants.SHORT_POSITION
 import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.coroutines.flow.Flow
 import java.math.BigDecimal
@@ -90,13 +92,38 @@ class MarketDataRepository @Inject constructor(
         }
     }
 
-    suspend fun longStock(position: Position) {
+    /** Portfolio */
 
+    suspend fun longStock(quote: DetailsQuote?, shares: Int) {
+        quote?.let {
+            val position = Position(
+                id = null,
+                entryPrice = it.lastPrice,
+                lastPrice = it.lastPrice,
+                size = shares,
+                symbol = it.symbol,
+                name = it.name,
+                positionType = LONG_POSITION
+            )
+            quoteDao.insertPosition(position)
+        }
+    }
+    suspend fun shortStock(quote: DetailsQuote?, shares: Int) {
+        quote?.let {
+            val position = Position(
+                id = null,
+                entryPrice = it.lastPrice,
+                lastPrice = it.lastPrice,
+                size = shares,
+                symbol = it.symbol,
+                name = it.name,
+                positionType = SHORT_POSITION
+            )
+            quoteDao.insertPosition(position)
+        }
     }
 
-    suspend fun shortStock(position: Position) {
-
-    }
+    fun getPortfolio(): Flow<List<Position>> = quoteDao.getPortfolio()
 
 
 }

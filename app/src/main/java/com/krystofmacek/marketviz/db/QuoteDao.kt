@@ -3,6 +3,7 @@ package com.krystofmacek.marketviz.db
 import androidx.room.*
 import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
 import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
+import com.krystofmacek.marketviz.model.databasemodels.Position
 import com.krystofmacek.marketviz.model.databasemodels.WatchlistQuote
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import kotlinx.coroutines.flow.Flow
@@ -33,5 +34,12 @@ interface QuoteDao {
 
     @Query("SELECT * FROM watchlist_table")
     fun getWatchlist(): Flow<List<WatchlistQuote>>
+
+    /** Portfolio */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPosition(position: Position)
+
+    @Query("SELECT * FROM positions_table")
+    fun getPortfolio(): Flow<List<Position>>
 
 }

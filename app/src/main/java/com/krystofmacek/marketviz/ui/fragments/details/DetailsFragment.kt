@@ -43,6 +43,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun subscribeObservers() {
         detailsViewModel.navigateToDialog.observe(viewLifecycleOwner, Observer {
+            Log.i("DialogToggle", "navigate to dialog = '${it}'")
             if(it) {
                 this.findNavController().navigate(
                     DetailsFragmentDirections.actionDetailsFragmentToTradeDialog()
@@ -53,10 +54,19 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         detailsViewModel.addToWatchlist.observe(viewLifecycleOwner, Observer {
             if(it) {
-                Log.i("ADD", "Added to watchlist")
                 Toast.makeText(
                     requireContext(),
-                    "${detailsViewModel.detailsQuote.value?.symbol} Added to Watchlist",
+                    "${detailsViewModel.detailsQuote.value?.symbol} Added to Watchlist.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
+
+        detailsViewModel.positionCreated.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                Toast.makeText(
+                    requireContext(),
+                    "${detailsViewModel.detailsQuote.value?.symbol} Position Created.",
                     Toast.LENGTH_LONG
                 ).show()
             }

@@ -1,9 +1,12 @@
 package com.krystofmacek.marketviz.ui.dialogs
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -40,7 +43,7 @@ class TradeDialog : BottomSheetDialogFragment() {
         detailsViewModel.inputNumOfShares.observe(viewLifecycleOwner, Observer {
             val numOfShares: Double? = it?.let {
                 if (it.isEmpty()) {
-                    0.0
+                    1.0
                 } else {
                     it.toDouble()
                 }
@@ -55,7 +58,18 @@ class TradeDialog : BottomSheetDialogFragment() {
 
             detailsViewModel.totalPrice.value = Utils.round(total)
         })
+
+        detailsViewModel.positionCreated.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it) {
+                    dismiss()
+                    Toast.makeText(
+                        requireContext(),
+                        "${detailsViewModel.detailsQuote.value?.symbol} Position Created.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        })
     }
-
-
 }
