@@ -1,8 +1,11 @@
 package com.krystofmacek.marketviz.repository
 
+import android.widget.Toast
 import com.krystofmacek.marketviz.db.QuoteDao
 import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
 import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
+import com.krystofmacek.marketviz.model.databasemodels.Position
+import com.krystofmacek.marketviz.model.databasemodels.WatchlistQuote
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.network.MarketDataService
 import com.krystofmacek.marketviz.network.SymbolAutoCompleteService
@@ -15,6 +18,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 
 class MarketDataRepository @Inject constructor(
@@ -71,6 +75,28 @@ class MarketDataRepository @Inject constructor(
     }
 
     fun getDetailsQuote(): Flow<DetailsQuote> = quoteDao.getDetailsQuote()
+
+    suspend fun addToWatchlist(quote: DetailsQuote?) {
+        quote?.let {
+            val watchlistQuote = WatchlistQuote(
+                symbol = quote.symbol,
+                name = quote.name,
+                lastPrice = quote.lastPrice,
+                netChange = quote.netChange,
+                percentageChange = quote.percentageChange
+            )
+
+            quoteDao.insertWatchlistQuote(watchlistQuote)
+        }
+    }
+
+    suspend fun longStock(position: Position) {
+
+    }
+
+    suspend fun shortStock(position: Position) {
+
+    }
 
 
 }

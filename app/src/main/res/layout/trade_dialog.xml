@@ -87,7 +87,8 @@
             app:layout_constraintEnd_toStartOf="@+id/td_btn_short"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+            app:layout_constraintTop_toTopOf="@+id/guideline3"
+            android:onClick="@{() -> viewModel.longStock()}"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/td_btn_short"
@@ -100,7 +101,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/td_btn_buy"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+            app:layout_constraintTop_toTopOf="@+id/guideline3"
+            android:onClick="@{() -> viewModel.shortStock()}"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"

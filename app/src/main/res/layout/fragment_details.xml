@@ -238,7 +238,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/materialButton2"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> viewModel.addToWatchList()}"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/materialButton2"

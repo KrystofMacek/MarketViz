@@ -10,7 +10,7 @@ import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 
 @Database(
     entities = [Quote::class, MarketIndex::class, DetailsQuote::class, WatchlistQuote::class, Position::class],
-    version = 8
+    version = 9
 )
 abstract class QuoteDatabase : RoomDatabase() {
     abstract fun getQuoteDao(): QuoteDao

@@ -14,4 +14,6 @@ object Constants {
     const val SEARCH_FRAGMENT = "search"
     const val WATCHLIST_FRAGMENT = "watchlist"
 
+    const val SHORT_POSITION = 0
+    const val LONG_POSITION = 1
 }
