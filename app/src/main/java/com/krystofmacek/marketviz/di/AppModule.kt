@@ -20,6 +20,7 @@ import com.krystofmacek.marketviz.network.SymbolAutoCompleteService
 import com.krystofmacek.marketviz.repository.MarketDataRepository
 import com.krystofmacek.marketviz.ui.adapters.AutoCompleteAdapter
 import com.krystofmacek.marketviz.ui.adapters.MarketIndexAdapter
+import com.krystofmacek.marketviz.ui.adapters.PositionAdapter
 import com.krystofmacek.marketviz.ui.adapters.WatchlistQuoteAdapter
 import com.krystofmacek.marketviz.utils.Constants.DB_NAME
 import com.krystofmacek.marketviz.utils.IndexListGenerator
@@ -159,6 +160,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideWatchlistQuoteAdapter(): WatchlistQuoteAdapter = WatchlistQuoteAdapter()
+
+    @Provides
+    @Singleton
+    fun providePositionAdapter(): PositionAdapter = PositionAdapter()
 
 
 

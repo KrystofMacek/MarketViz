@@ -11,12 +11,12 @@ import com.krystofmacek.marketviz.model.databasemodels.WatchlistQuote
 import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.android.synthetic.main.item_quote.view.*
 
-class WatchlistQuoteAdapter: RecyclerView.Adapter<WatchlistQuoteAdapter.QuoteViewHolder>()  {
+class WatchlistQuoteAdapter: RecyclerView.Adapter<WatchlistQuoteAdapter.WatchlistQuoteViewHolder>()  {
 
-    inner class QuoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    inner class WatchlistQuoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteViewHolder {
-        return QuoteViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchlistQuoteViewHolder {
+        return WatchlistQuoteViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(
                     R.layout.item_quote,
@@ -26,7 +26,7 @@ class WatchlistQuoteAdapter: RecyclerView.Adapter<WatchlistQuoteAdapter.QuoteVie
         )
     }
 
-    override fun onBindViewHolder(holder: QuoteViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WatchlistQuoteViewHolder, position: Int) {
         val quote = differ.currentList[position]
 
         holder.itemView.apply {
