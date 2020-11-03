@@ -92,6 +92,8 @@ class MarketDataRepository @Inject constructor(
         }
     }
 
+    fun getWatchlist(): Flow<List<WatchlistQuote>> = quoteDao.getWatchlist()
+
     /** Portfolio */
 
     suspend fun longStock(quote: DetailsQuote?, shares: Int) {
