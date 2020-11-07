@@ -40,13 +40,12 @@
         android:id="@+id/portfolioFragment"
         android:name="com.krystofmacek.marketviz.ui.fragments.portfolio.PortfolioFragment"
         android:label="PortfolioFragment" >
-        <action
-            android:id="@+id/action_portfolioFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+
     </fragment>
     <dialog
         android:id="@+id/tradeDialog"
         android:name="com.krystofmacek.marketviz.ui.dialogs.TradeDialog"
         android:label="TradeDialog" />
+
 
 </navigation>

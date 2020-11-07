@@ -1,6 +1,8 @@
 package com.krystofmacek.marketviz.di
 
+import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -164,7 +166,5 @@ object AppModule {
     @Provides
     @Singleton
     fun providePositionAdapter(): PositionAdapter = PositionAdapter()
-
-
 
 }

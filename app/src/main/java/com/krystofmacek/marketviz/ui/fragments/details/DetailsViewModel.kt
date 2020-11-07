@@ -1,14 +1,9 @@
 package com.krystofmacek.marketviz.ui.fragments.details
 
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
-import androidx.databinding.Bindable
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
 import com.krystofmacek.marketviz.repository.MarketDataRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DetailsViewModel @ViewModelInject constructor(

@@ -127,5 +127,9 @@ class MarketDataRepository @Inject constructor(
 
     fun getPortfolio(): Flow<List<Position>> = quoteDao.getPortfolio()
 
+    suspend fun closePosition(position: Position) {
+        quoteDao.deletePosition(position)
+    }
+
 
 }

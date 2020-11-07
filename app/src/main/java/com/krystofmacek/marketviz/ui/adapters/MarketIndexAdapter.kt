@@ -10,8 +10,6 @@ import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
 import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.android.synthetic.main.item_quote.view.*
-import java.math.BigDecimal
-import java.math.RoundingMode
 
 class MarketIndexAdapter: RecyclerView.Adapter<MarketIndexAdapter.QuoteViewHolder>() {
 
@@ -34,17 +32,17 @@ class MarketIndexAdapter: RecyclerView.Adapter<MarketIndexAdapter.QuoteViewHolde
 
         holder.itemView.apply {
 
-            iq_symbol.text = marketIndex.symbol
-            iq_name.text = marketIndex.name
+            ip_symbol.text = marketIndex.symbol
+            ip_name.text = marketIndex.name
 
             val lastPrice = "${marketIndex.lastPrice}"
-            iq_lastPrice.text = lastPrice
+            ip_lastPrice.text = lastPrice
 
             val netChange = "${Utils.round(marketIndex.netChange)}"
-            iq_netChange.text = netChange
+            ip_netChange.text = netChange
 
             val percChange = "${marketIndex.percentageChange}%"
-            iq_percentChange.text = percChange
+            ip_percentChange.text = percChange
 
         }
 

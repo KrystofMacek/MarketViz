@@ -9,7 +9,7 @@
         android:padding="@dimen/item_quote_padding">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/iq_symbol"
+            android:id="@+id/ip_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -20,18 +20,18 @@
             android:textStyle="bold"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/iq_name"
+            android:id="@+id/ip_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iq_symbol"
+            app:layout_constraintTop_toBottomOf="@id/ip_symbol"
             tools:text="Apple Inc"
             android:padding="@dimen/item_quote_textView_padding"
             android:textSize="@dimen/item_quote_textSize_small"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/iq_lastPrice"
+            android:id="@+id/ip_lastPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,23 +41,23 @@
             android:textSize="@dimen/item_quote_textSize_big"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/iq_netChange"
+            android:id="@+id/ip_netChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/iq_percentChange"
-            app:layout_constraintTop_toBottomOf="@+id/iq_lastPrice"
+            app:layout_constraintEnd_toStartOf="@+id/ip_percentChange"
+            app:layout_constraintTop_toBottomOf="@+id/ip_lastPrice"
             tools:text="+45"
             android:padding="@dimen/item_quote_textView_padding"
             android:textSize="@dimen/item_quote_textSize_small"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/iq_percentChange"
+            android:id="@+id/ip_percentChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iq_lastPrice"
+            app:layout_constraintTop_toBottomOf="@+id/ip_lastPrice"
             tools:text="(0.23%)"
             android:padding="@dimen/item_quote_textView_padding"
             android:textSize="@dimen/item_quote_textSize_small"/>

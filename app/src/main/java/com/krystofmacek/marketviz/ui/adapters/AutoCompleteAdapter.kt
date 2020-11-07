@@ -15,14 +15,16 @@ class AutoCompleteAdapter(
 
     var onItemSelectedListener: OnItemSelectedListener? = null
 
-    inner class AutoCompleteViewHolder(itemView: View, onItemSelectedListener: OnItemSelectedListener?)
-        : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class AutoCompleteViewHolder(
+        itemView: View,
+        onItemSelectedListener: OnItemSelectedListener?
+    ): RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private val listener: OnItemSelectedListener? = onItemSelectedListener
-
         override fun onClick(v: View?) {
             listener?.onItemSelected(adapterPosition)
         }
+
     }
 
 
@@ -59,8 +61,9 @@ class AutoCompleteAdapter(
 
             ia_name.text = name
             ia_symbol.text = item.symbol
+
+            setOnClickListener(holder)
         }
-        holder.itemView.setOnClickListener(holder)
 
     }
 
@@ -80,10 +83,5 @@ class AutoCompleteAdapter(
 
     private val differ = AsyncListDiffer(this, diffCallback)
     fun submitList(list: List<SymbolsItem>) = differ.submitList(list)
-
-
-    interface OnItemSelectedListener {
-        fun onItemSelected(position: Int)
-    }
 
 }

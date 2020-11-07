@@ -30,17 +30,17 @@ class WatchlistQuoteAdapter: RecyclerView.Adapter<WatchlistQuoteAdapter.Watchlis
         val quote = differ.currentList[position]
 
         holder.itemView.apply {
-            iq_symbol.text = quote.symbol
-            iq_name.text = quote.name
+            ip_symbol.text = quote.symbol
+            ip_name.text = quote.name
 
             val lastPrice = "${quote.lastPrice}"
-            iq_lastPrice.text = lastPrice
+            ip_lastPrice.text = lastPrice
 
             val netChange = "${Utils.round(quote.netChange)}"
-            iq_netChange.text = netChange
+            ip_netChange.text = netChange
 
             val percChange = "${quote.percentageChange}%"
-            iq_percentChange.text = percChange
+            ip_percentChange.text = percChange
         }
 
     }

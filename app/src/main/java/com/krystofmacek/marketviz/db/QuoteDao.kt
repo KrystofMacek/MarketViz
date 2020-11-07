@@ -42,4 +42,7 @@ interface QuoteDao {
     @Query("SELECT * FROM positions_table")
     fun getPortfolio(): Flow<List<Position>>
 
+    @Delete
+    suspend fun deletePosition(position: Position)
+
 }

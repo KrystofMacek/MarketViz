@@ -7,4 +7,9 @@
     <string name="search_input_hint">tesla</string>
     <string name="td_default_num">1</string>
     <string name="td_total_label">TOTAL</string>
+    <string name="pd_title">Would you like to close this position ?</string>
+    <string name="pd_message">Current P/L of this position will be added to your total.</string>
+    <string name="pd_accept">Close Position</string>
+    <string name="pd_cancel">Cancel</string>
+    <string name="total_pl">total_pl</string>
 </resources>

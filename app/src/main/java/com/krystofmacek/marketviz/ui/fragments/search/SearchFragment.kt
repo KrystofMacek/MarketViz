@@ -15,6 +15,7 @@ import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.databinding.FragmentSearchBinding
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.ui.adapters.AutoCompleteAdapter
+import com.krystofmacek.marketviz.ui.adapters.OnItemSelectedListener
 import com.krystofmacek.marketviz.utils.Constants.SEARCH_FRAGMENT
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search),
-    AutoCompleteAdapter.OnItemSelectedListener {
+    OnItemSelectedListener {
 
     private val listener = this
 
@@ -43,30 +44,24 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             .apply {
                 this.lifecycleOwner = viewLifecycleOwner
                 this.viewModel = searchViewModel
-            }
 
-        return binding.root
-    }
+                this.fragmentSearchAutocompleteRecycler.adapter = autoCompleteAdapter
+                autoCompleteAdapter.onItemSelectedListener = listener
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        fragment_search_autocomplete_recycler.apply {
-            autoCompleteAdapter.onItemSelectedListener = listener
-            this.adapter = autoCompleteAdapter
-        }
-
-        fragment_search_symbol_inputT.setOnEditorActionListener { v, actionId, _ ->
-            return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_SEARCH -> {
-                    searchQuote(v.text.toString())
-                    true
+                this.fragmentSearchSymbolInputT.setOnEditorActionListener { v, actionId, _ ->
+                    return@setOnEditorActionListener when (actionId) {
+                        EditorInfo.IME_ACTION_SEARCH -> {
+                            searchQuote(v.text.toString())
+                            true
+                        }
+                        else -> false
+                    }
                 }
-                else -> false
             }
-        }
 
         subscribeObservers()
+
+        return binding.root
     }
 
     private fun subscribeObservers() {
