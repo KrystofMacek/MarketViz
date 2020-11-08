@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
-import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import com.krystofmacek.marketviz.repository.MarketDataRepository
 
 class OverviewViewModel @ViewModelInject constructor(

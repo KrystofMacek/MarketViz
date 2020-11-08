@@ -1,6 +1,7 @@
 package com.krystofmacek.marketviz.ui.fragments.portfolio
 
 import android.content.Context
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.krystofmacek.marketviz.model.databasemodels.Position
@@ -27,7 +28,7 @@ class PortfolioViewModel @ViewModelInject constructor(
     val updateTotalPL: LiveData<Boolean>
         get() = _updateTotalPL
 
-    val totalPL = MutableLiveData<Float>()
+    val totalPL = MutableLiveData<Double>()
 
 
     val selectedItem = MutableLiveData<Int>()
@@ -41,10 +42,10 @@ class PortfolioViewModel @ViewModelInject constructor(
                 totalPL.postValue(totalPL.value?.let {
                     it + ((position.lastPrice - position.entryPrice) * position.size).toFloat()
                 })
-
                 viewModelScope.launch {
                     repository.closePosition(position)
                 }
+
             }
         }
     }
@@ -56,5 +57,6 @@ class PortfolioViewModel @ViewModelInject constructor(
     fun totalPlLoaded() {
         _loadTotalPL.postValue(false)
     }
+
 
 }

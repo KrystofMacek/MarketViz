@@ -1,6 +1,7 @@
 package com.krystofmacek.marketviz.repository
 
-import android.widget.Toast
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.krystofmacek.marketviz.db.QuoteDao
 import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
 import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
@@ -13,14 +14,12 @@ import com.krystofmacek.marketviz.utils.Constants.LONG_POSITION
 import com.krystofmacek.marketviz.utils.Constants.SHORT_POSITION
 import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.coroutines.flow.Flow
-import java.math.BigDecimal
-import java.math.RoundingMode
-import java.text.DateFormat
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 
 class MarketDataRepository @Inject constructor(
@@ -95,7 +94,6 @@ class MarketDataRepository @Inject constructor(
     fun getWatchlist(): Flow<List<WatchlistQuote>> = quoteDao.getWatchlist()
 
     /** Portfolio */
-
     suspend fun longStock(quote: DetailsQuote?, shares: Int) {
         quote?.let {
             val position = Position(
@@ -129,6 +127,23 @@ class MarketDataRepository @Inject constructor(
 
     suspend fun closePosition(position: Position) {
         quoteDao.deletePosition(position)
+    }
+
+    suspend fun updatePortfolioData() {
+        var quotes = ""
+
+        quoteDao.getPortfolio().collect {
+            for (i in it) {
+                quotes += "${i.symbol},"
+            }
+            Log.i("UpdatePOrtf", "quotes: $quotes")
+        }
+
+        marketDataService.loadPortfolioData(quotes).data?.let { response ->
+            for (quote in response.quotes) {
+                quoteDao.updatePosition(quote.symbol, quote.lastPrice)
+            }
+        }
     }
 
 

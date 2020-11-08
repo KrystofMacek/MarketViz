@@ -32,7 +32,6 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
     private fun subscribeObservers() {
         viewModel.marketIndices.observe(viewLifecycleOwner, Observer {
-            Log.i("OBS","observing ${it.size}")
             marketIndexAdapter.submitList(it)
         })
     }

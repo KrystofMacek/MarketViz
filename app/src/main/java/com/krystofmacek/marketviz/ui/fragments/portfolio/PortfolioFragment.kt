@@ -12,11 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.databinding.FragmentPortfolioBinding
 import com.krystofmacek.marketviz.ui.adapters.OnItemSelectedListener
 import com.krystofmacek.marketviz.ui.adapters.PositionAdapter
+import com.krystofmacek.marketviz.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_portfolio.*
 import javax.inject.Inject
@@ -50,6 +52,7 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio), OnItemSelectedL
 
             fragmentPortfolioRecycler.adapter = positionAdapter
             positionAdapter.onItemSelectedListener = listener
+
         }
 
         subscribeObservers()
@@ -70,7 +73,7 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio), OnItemSelectedL
             with(sharedPreferences?.edit()) {
                 portfolioViewModel.totalPL.value?.let { value ->
                     this?.let {
-                        putFloat(getString(R.string.total_pl), value)
+                        putFloat(getString(R.string.total_pl), value.toFloat())
                         apply()
                     }
                 }
@@ -80,9 +83,11 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio), OnItemSelectedL
         })
 
         portfolioViewModel.loadTotalPL.observe(viewLifecycleOwner, Observer {
-            val totalPl = sharedPreferences?.getFloat(getString(R.string.total_pl), 0.0F)
-            portfolioViewModel.totalPL.postValue(totalPl)
-            portfolioViewModel.totalPlLoaded()
+            val totalPl = sharedPreferences?.getFloat(getString(R.string.total_pl), 0.0F)?.toDouble()
+            totalPl?.let {
+                portfolioViewModel.totalPL.postValue(Utils.round(it))
+                portfolioViewModel.totalPlLoaded()
+            }
         })
 
     }
@@ -105,6 +110,5 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio), OnItemSelectedL
             }
             .show()
     }
-
 
 }

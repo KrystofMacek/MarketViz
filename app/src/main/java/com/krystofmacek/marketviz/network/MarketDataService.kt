@@ -1,6 +1,7 @@
 package com.krystofmacek.marketviz.network
 
 import android.content.Context
+import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.QuoteResponse
 import com.krystofmacek.marketviz.utils.Constants.DEFAULT_FIELDS
 import com.krystofmacek.marketviz.utils.IndexListGenerator
@@ -17,9 +18,7 @@ class MarketDataService @Inject constructor(
     val app: Context
 ) {
 
-
-
-
+    /** Methods for market indices */
     suspend fun loadIndices(): Resource<QuoteResponse> {
         return loadIndices(DEFAULT_FIELDS)
     }
@@ -32,6 +31,11 @@ class MarketDataService @Inject constructor(
 
     suspend fun searchQuote(quote: String): Resource<QuoteResponse> {
         return safeApiCall { api.getQuotes(quote, DEFAULT_FIELDS) }
+    }
+
+    /** methods to update data for potrfolio */
+    suspend fun loadPortfolioData(quotes: String): Resource<QuoteResponse> {
+        return safeApiCall { api.getQuotes(quotes, DEFAULT_FIELDS) }
     }
 
     private inline fun safeApiCall(responseFunction: () -> Response<QuoteResponse>): Resource<QuoteResponse> {
@@ -56,8 +60,5 @@ class MarketDataService @Inject constructor(
         }
         return Resource.error(message = response.message())
     }
-
-
-
 
 }
