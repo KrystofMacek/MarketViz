@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
+/** Model to be used when saving and displaying detail of certain quote */
+
 @Entity(tableName = "details_quote_table")
 class DetailsQuote (
     @PrimaryKey

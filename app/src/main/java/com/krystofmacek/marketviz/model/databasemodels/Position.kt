@@ -2,7 +2,8 @@ package com.krystofmacek.marketviz.model.databasemodels
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.krystofmacek.marketviz.utils.Constants
+
+/** Model to be used when saving and displaying positions in portfolio */
 
 @Entity(tableName = "positions_table")
 class Position (

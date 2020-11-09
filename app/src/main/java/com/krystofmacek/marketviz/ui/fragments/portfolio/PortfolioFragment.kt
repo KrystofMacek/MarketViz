@@ -101,11 +101,11 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio), OnItemSelectedL
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.pd_title))
             .setMessage(resources.getString(R.string.pd_message))
-            .setNegativeButton(resources.getString(R.string.pd_accept)) { dialog, _ ->
-                portfolioViewModel.closePosition()
+            .setNegativeButton(resources.getString(R.string.pd_cancel)) { dialog, _ ->
                 dialog.cancel()
             }
-            .setPositiveButton(resources.getString(R.string.pd_cancel)) { dialog, _ ->
+            .setPositiveButton(resources.getString(R.string.pd_accept)) { dialog, _ ->
+                portfolioViewModel.closePosition()
                 dialog.cancel()
             }
             .show()

@@ -44,7 +44,7 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 object AppModule {
 
-    // utils
+    /** Utils */
     @Provides
     @Singleton
     fun provideNetworkHelper(@ApplicationContext app: Context): NetworkHelper = NetworkHelper(app)
@@ -61,7 +61,7 @@ object AppModule {
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     ).build()
 
-    // Retrofit instance
+    /** Retrofit instance */
     @Provides
     @Singleton
     @Named("MarketData")
@@ -105,7 +105,7 @@ object AppModule {
     @Singleton
     fun provideSymbolAutoCompleteService(nh: NetworkHelper, api: SymbolAutoCompleteAPI) = SymbolAutoCompleteService(nh, api)
 
-    // Room Database
+    /** Room Database */
     @Provides
     @Singleton
     fun provideQuoteDatabase(
@@ -136,7 +136,7 @@ object AppModule {
         .fallbackToDestructiveMigration()
         .build()
 
-     // DAO
+     /** DAO */
     @Provides
     @Singleton
     fun provideQuoteDao(db: QuoteDatabase): QuoteDao = db.getQuoteDao()
@@ -149,7 +149,7 @@ object AppModule {
         dao: QuoteDao
     ): MarketDataRepository = MarketDataRepository(dataService,autocompleteService, dao)
 
-    // Adapters
+    /** Adapters */
     @Provides
     @Singleton
     fun provideMarketIndexAdapter(): MarketIndexAdapter = MarketIndexAdapter()

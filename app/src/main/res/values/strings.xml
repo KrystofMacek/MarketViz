@@ -12,4 +12,7 @@
     <string name="pd_accept">Close Position</string>
     <string name="pd_cancel">Cancel</string>
     <string name="total_pl">total_pl</string>
+    <string name="wd_title">Remove stock from watchlist ?</string>
+    <string name="wd_message">Would you like to remove this stock from your watchlist ?</string>
+    <string name="wd_accpet">Remove stock</string>
 </resources>

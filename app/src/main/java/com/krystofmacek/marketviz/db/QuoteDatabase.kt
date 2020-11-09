@@ -9,8 +9,8 @@ import com.krystofmacek.marketviz.model.databasemodels.WatchlistQuote
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 
 @Database(
-    entities = [Quote::class, MarketIndex::class, DetailsQuote::class, WatchlistQuote::class, Position::class],
-    version = 9
+    entities = [MarketIndex::class, DetailsQuote::class, WatchlistQuote::class, Position::class],
+    version = 10
 )
 abstract class QuoteDatabase : RoomDatabase() {
     abstract fun getQuoteDao(): QuoteDao

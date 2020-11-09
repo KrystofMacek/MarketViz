@@ -4,12 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-@Entity(
-    tableName = "quotes"
-)
+
+/** Model class of individual quote from market data call */
 data class Quote(
 
-    @PrimaryKey
     val symbol: String,
     val close: Double,
     val dayCode: String,
@@ -36,4 +34,4 @@ data class Quote(
     val avgVolume: Int,
     val previousClose: Double,
     var category: Int?
-) : Serializable
+)

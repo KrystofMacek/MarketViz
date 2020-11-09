@@ -48,4 +48,7 @@ interface QuoteDao {
     @Query("UPDATE positions_table SET lastPrice = :lastPrice WHERE symbol = :symbol")
     fun updatePosition(symbol: String, lastPrice: Double)
 
+    @Delete
+    suspend fun removeFromWatchlist(watchlistQuote: WatchlistQuote)
+
 }

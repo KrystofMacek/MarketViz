@@ -13,7 +13,23 @@ import kotlinx.android.synthetic.main.item_quote.view.*
 
 class WatchlistQuoteAdapter: RecyclerView.Adapter<WatchlistQuoteAdapter.WatchlistQuoteViewHolder>()  {
 
-    inner class WatchlistQuoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    var onItemSelectedListener: OnItemSelectedListener? = null
+
+    inner class WatchlistQuoteViewHolder(
+        itemView: View,
+        onItemSelectedListener: OnItemSelectedListener?
+    ):
+        RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+
+        private val listener: OnItemSelectedListener? = onItemSelectedListener
+        override fun onClick(v: View?) {
+            listener?.onItemSelected(adapterPosition)
+        }
+
+
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchlistQuoteViewHolder {
         return WatchlistQuoteViewHolder(
@@ -22,7 +38,8 @@ class WatchlistQuoteAdapter: RecyclerView.Adapter<WatchlistQuoteAdapter.Watchlis
                     R.layout.item_quote,
                     parent,
                     false
-                )
+                ),
+            onItemSelectedListener
         )
     }
 
@@ -41,7 +58,10 @@ class WatchlistQuoteAdapter: RecyclerView.Adapter<WatchlistQuoteAdapter.Watchlis
 
             val percChange = "${quote.percentageChange}%"
             ip_percentChange.text = percChange
+
+            setOnClickListener(holder)
         }
+
 
     }
 
