@@ -1,10 +1,7 @@
 package com.krystofmacek.marketviz.db
 
 import androidx.room.*
-import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
-import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
-import com.krystofmacek.marketviz.model.databasemodels.Position
-import com.krystofmacek.marketviz.model.databasemodels.WatchlistQuote
+import com.krystofmacek.marketviz.model.databasemodels.*
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import kotlinx.coroutines.flow.Flow
 
@@ -50,5 +47,13 @@ interface QuoteDao {
 
     @Delete
     suspend fun removeFromWatchlist(watchlistQuote: WatchlistQuote)
+
+    /** Quote History */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertQuoteHistory(quoteHistory: QuoteHistory)
+
+    @Query("UPDATE histories_table SET records = :records WHERE symbol = :symbol")
+    fun updateHistory(symbol: String, records: List<HistoryRecord>)
+
 
 }

@@ -1,9 +1,5 @@
 package com.krystofmacek.marketviz.model.networkmodels.marketdata
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.io.Serializable
-
 
 /** Model class of individual quote from market data call */
 data class Quote(

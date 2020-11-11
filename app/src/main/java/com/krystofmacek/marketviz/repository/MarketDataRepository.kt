@@ -3,10 +3,7 @@ package com.krystofmacek.marketviz.repository
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.krystofmacek.marketviz.db.QuoteDao
-import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
-import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
-import com.krystofmacek.marketviz.model.databasemodels.Position
-import com.krystofmacek.marketviz.model.databasemodels.WatchlistQuote
+import com.krystofmacek.marketviz.model.databasemodels.*
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.network.MarketDataService
 import com.krystofmacek.marketviz.network.SymbolAutoCompleteService
@@ -41,6 +38,8 @@ class MarketDataRepository @Inject constructor(
                     percentageChange = quote.percentChange
                 )
                 quoteDao.insertMarketIndex(index)
+                // get history for each symbol
+                this.getHistory(quote.symbol)
             }
         }
     }
@@ -151,5 +150,37 @@ class MarketDataRepository @Inject constructor(
     }
 
 
+    /** Quote History */
+    suspend fun getHistory(symbol: String) {
+        marketDataService.getHistory(symbol).data?.let {
+
+            val historySymbol = it.records[0].symbol
+
+            val historyRecords = mutableListOf<HistoryRecord>()
+
+            for (r in it.records) {
+                historyRecords.add(
+                    HistoryRecord(
+                        open = r.open,
+                        close = r.close,
+                        high = r.high,
+                        low = r.low,
+                        volume = r.volume,
+                        timestamp = r.timestamp,
+                        tradingDay = r.tradingDay
+                    )
+                )
+
+                Log.i("getHistory", r.toString())
+            }
+
+            val quoteHistory = QuoteHistory(
+                symbol = historySymbol,
+                records = historyRecords
+            )
+
+            quoteDao.insertQuoteHistory(quoteHistory)
+        }
+    }
 
 }
