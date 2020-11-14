@@ -1,10 +1,8 @@
 package com.krystofmacek.marketviz.ui.app
 
 import android.app.Application
-import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
-import com.krystofmacek.marketviz.utils.Utils
 import com.krystofmacek.marketviz.workers.IndicesDataUpdateWorker
 import com.krystofmacek.marketviz.workers.PortfolioDataUpdateWorker
 import dagger.hilt.android.HiltAndroidApp

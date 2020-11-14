@@ -25,7 +25,7 @@ class MarketDataRepository @Inject constructor(
     private val quoteDao: QuoteDao
 ) {
 
-
+    /** Load data for market indices */
     suspend fun loadIndices() {
         marketDataService.loadIndices().data?.let {
             for (quote in it.quotes) {
@@ -44,9 +44,10 @@ class MarketDataRepository @Inject constructor(
         }
     }
 
+    /** get indices from database */
     fun getAllIndices(): Flow<List<MarketIndex>> = quoteDao.getMarketIndices()
 
-
+    /** get autocomplete data for keyword */
     suspend fun getAutoCompleteSymbolsFor(keyword: String): Symbols {
         symbolAutoCompleteService.getSymbolsFor(keyword).data?.let {
             return it
@@ -54,6 +55,7 @@ class MarketDataRepository @Inject constructor(
         return Symbols()
     }
 
+    /** get data for specified Quote */
     suspend fun searchQuote(keyword: String) {
         marketDataService.searchQuote(keyword).data?.let {
             val quote = it.quotes.first()
@@ -71,6 +73,8 @@ class MarketDataRepository @Inject constructor(
             )
             quoteDao.clearDetailsTable()
             quoteDao.insertDetailsQuote(searchQuoteResult)
+
+            this.getHistory(keyword)
         }
     }
 
@@ -133,17 +137,19 @@ class MarketDataRepository @Inject constructor(
     }
 
     suspend fun updatePortfolioData() {
-        var quotes = ""
-
-        quoteDao.getPortfolio().collect {
+        quoteDao.getPortfolioSymbols().let {
+            var quotes = ""
             for (i in it) {
-                quotes += "${i.symbol},"
+                quotes += "$i,"
             }
-            Log.i("UpdatePOrtf", "quotes: $quotes")
+            loadPortfolioData(quotes)
         }
 
+    }
+    private suspend fun loadPortfolioData(quotes: String) {
         marketDataService.loadPortfolioData(quotes).data?.let { response ->
             for (quote in response.quotes) {
+                Log.i("load portfolio data", "quote last price: ${quote.lastPrice}")
                 quoteDao.updatePosition(quote.symbol, quote.lastPrice)
             }
         }

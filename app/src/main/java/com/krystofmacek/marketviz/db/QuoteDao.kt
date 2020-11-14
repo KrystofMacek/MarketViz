@@ -39,6 +39,9 @@ interface QuoteDao {
     @Query("SELECT * FROM positions_table")
     fun getPortfolio(): Flow<List<Position>>
 
+    @Query("SELECT symbol FROM positions_table")
+    fun getPortfolioSymbols(): List<String>
+
     @Delete
     suspend fun deletePosition(position: Position)
 

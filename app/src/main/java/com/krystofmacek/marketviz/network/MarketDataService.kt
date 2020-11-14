@@ -1,6 +1,7 @@
 package com.krystofmacek.marketviz.network
 
 import android.content.Context
+import android.util.Log
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.HistoryResponse
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.QuoteResponse
 import com.krystofmacek.marketviz.utils.*
@@ -34,6 +35,8 @@ class MarketDataService @Inject constructor(
 
     /** methods to update data for potrfolio */
     suspend fun loadPortfolioData(quotes: String): Resource<QuoteResponse> {
+
+        Log.i("WorkerPortfUpdate", "Load Portfolio")
         return safeGetQuote { api.getQuotes(quotes, DEFAULT_FIELDS) }
     }
 
@@ -76,6 +79,8 @@ class MarketDataService @Inject constructor(
     /** Handle get quote requests and resp */
     private inline fun safeGetQuote(responseFunction: ()  -> Response<QuoteResponse>): Resource<QuoteResponse> {
 
+        Log.i("WorkerPortfUpdate", "safeGetQuote")
+
         return if(networkHelper.checkInternetConnection()) {
             try {
                 handleQuoteResponse(responseFunction.invoke())
@@ -89,8 +94,12 @@ class MarketDataService @Inject constructor(
     }
 
     private fun handleQuoteResponse(response: Response<QuoteResponse>): Resource<QuoteResponse> {
+
+        Log.i("WorkerPortfUpdate", "handle quote response")
         if(response.isSuccessful) {
+            Log.i("WorkerPortfUpdate", "response is success")
             response.body()?.let {
+                Log.i("WorkerPortfUpdate", "return $it")
                 return Resource.success(it)
             }
         }

@@ -1,6 +1,7 @@
 package com.krystofmacek.marketviz.workers
 
 import android.content.Context
+import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
