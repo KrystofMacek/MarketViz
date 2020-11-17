@@ -2,7 +2,7 @@ package com.krystofmacek.marketviz.ui.fragments.portfolio
 
 import android.content.Context
 import android.os.Bundle
-import android.system.Os.accept
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.databinding.FragmentPortfolioBinding
@@ -20,7 +17,6 @@ import com.krystofmacek.marketviz.ui.adapters.OnItemSelectedListener
 import com.krystofmacek.marketviz.ui.adapters.PositionAdapter
 import com.krystofmacek.marketviz.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_portfolio.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,7 +26,6 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio), OnItemSelectedL
 
     private val portfolioViewModel: PortfolioViewModel by viewModels()
 
-    private val sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)
 
     @Inject
     lateinit var positionAdapter: PositionAdapter
@@ -69,26 +64,47 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio), OnItemSelectedL
         })
 
         portfolioViewModel.updateTotalPL.observe(viewLifecycleOwner, Observer {
-
-            with(sharedPreferences?.edit()) {
-                portfolioViewModel.totalPL.value?.let { value ->
-                    this?.let {
-                        putFloat(getString(R.string.total_pl), value.toFloat())
-                        apply()
-                    }
-                }
+            if(it) {
+                Log.i("plTotal", "update total")
+                saveToSP()
+                portfolioViewModel.totalPlUpdateFinished()
             }
-
-            portfolioViewModel.totalPlUpdateFinished()
         })
 
         portfolioViewModel.loadTotalPL.observe(viewLifecycleOwner, Observer {
-            val totalPl = sharedPreferences?.getFloat(getString(R.string.total_pl), 0.0F)?.toDouble()
-            totalPl?.let {
-                portfolioViewModel.totalPL.postValue(Utils.round(it))
+            if (it) {
+                Log.i("plTotal", "load total")
+                val totalPl = loadFromSP()
+
+                Log.i("plTotal", "value loaded: $totalPl")
+                portfolioViewModel.totalPL.postValue(Utils.round(totalPl))
+
+                Log.i("plTotal", "posted totalPL : $totalPl")
                 portfolioViewModel.totalPlLoaded()
+
             }
         })
+
+    }
+
+    private fun saveToSP() {
+        val sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)
+
+        sharedPreferences?.let {
+            with(sharedPreferences.edit()) {
+                this?.run {
+                    val value = portfolioViewModel.totalPL.value ?: 0.0
+                    Log.i("plTotal", "updated to: $value")
+                    putFloat(getString(R.string.total_pl), value.toFloat())
+                    apply()
+                }
+            }
+        }
+    }
+    private fun loadFromSP(): Double {
+        val sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)
+
+        return sharedPreferences?.getFloat(getString(R.string.total_pl), 0.0F)?.toDouble() ?: 0.0
 
     }
 

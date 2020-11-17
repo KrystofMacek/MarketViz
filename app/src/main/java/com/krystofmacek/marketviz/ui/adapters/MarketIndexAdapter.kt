@@ -7,13 +7,26 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.krystofmacek.marketviz.R
+import com.krystofmacek.marketviz.generated.callback.OnClickListener
 import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
 import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.android.synthetic.main.item_quote.view.*
 
 class MarketIndexAdapter: RecyclerView.Adapter<MarketIndexAdapter.QuoteViewHolder>() {
 
-    inner class QuoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    var onItemSelectedListener: OnItemSelectedListener? = null
+
+    inner class QuoteViewHolder(
+        itemView: View,
+        onItemSelectedListener: OnItemSelectedListener?
+    ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
+        private val listener: OnItemSelectedListener? = onItemSelectedListener
+
+        override fun onClick(v: View?) {
+            listener?.onItemSelected(adapterPosition)
+        }
+    }
 
     /** Recycler View Methods */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteViewHolder {
@@ -23,7 +36,8 @@ class MarketIndexAdapter: RecyclerView.Adapter<MarketIndexAdapter.QuoteViewHolde
                 R.layout.item_quote,
                 parent,
                 false
-            )
+            ),
+            onItemSelectedListener
         )
     }
 
@@ -44,6 +58,8 @@ class MarketIndexAdapter: RecyclerView.Adapter<MarketIndexAdapter.QuoteViewHolde
             val percChange = "${marketIndex.percentageChange}%"
             ip_percentChange.text = percChange
 
+
+            setOnClickListener(holder)
         }
 
     }

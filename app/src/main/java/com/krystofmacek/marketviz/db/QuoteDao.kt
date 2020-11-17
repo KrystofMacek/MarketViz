@@ -58,5 +58,8 @@ interface QuoteDao {
     @Query("UPDATE histories_table SET records = :records WHERE symbol = :symbol")
     fun updateHistory(symbol: String, records: List<HistoryRecord>)
 
+    @Query("SELECT * FROM histories_table WHERE symbol = :symbol")
+    fun getHistory(symbol: String): QuoteHistory
+
 
 }

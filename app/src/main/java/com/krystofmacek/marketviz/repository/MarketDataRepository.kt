@@ -2,6 +2,7 @@ package com.krystofmacek.marketviz.repository
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.github.mikephil.charting.data.CandleEntry
 import com.krystofmacek.marketviz.db.QuoteDao
 import com.krystofmacek.marketviz.model.databasemodels.*
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
@@ -188,5 +189,34 @@ class MarketDataRepository @Inject constructor(
             quoteDao.insertQuoteHistory(quoteHistory)
         }
     }
+
+    fun loadHistoryData(symbol: String): ArrayList<CandleEntry> {
+        Log.i("loadChart", "repo - loadHistoryData()")
+
+        val list = ArrayList<CandleEntry>()
+        quoteDao.getHistory(symbol).let {
+
+            Log.i("loadChart", "repo symbol - ${it.symbol}")
+
+            for ((index, r) in it.records.withIndex()) {
+
+                val entry = CandleEntry(
+                    index.toFloat(),
+                    r.high.toFloat(),
+                    r.low.toFloat(),
+                    r.open.toFloat(),
+                    r.close.toFloat()
+                )
+
+                Log.i("loadChart", "entry - ${entry.x}, ${entry.high}, ${entry.low}")
+
+                list.add(entry)
+            }
+            Log.i("loadChart", "repo list size - ${list.size}")
+
+            return list
+        }
+    }
+
 
 }

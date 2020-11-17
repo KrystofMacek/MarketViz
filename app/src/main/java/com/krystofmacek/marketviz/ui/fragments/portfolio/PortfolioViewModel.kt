@@ -34,17 +34,21 @@ class PortfolioViewModel @ViewModelInject constructor(
     val selectedItem = MutableLiveData<Int>()
 
     fun closePosition() {
+        Log.i("plTotal", "closing position")
+
         portfolioList.value?.let { list ->
             selectedItem.value?.let { index ->
                 val position = list[index]
-                _updateTotalPL.postValue(true)
 
-                totalPL.postValue(totalPL.value?.let {
-                    it + ((position.lastPrice - position.entryPrice) * position.size).toFloat()
-                })
+                totalPL.value?.let { totalPlVal ->
+                    val newPl = totalPlVal + ((position.lastPrice - position.entryPrice) * position.size).toFloat()
+                    totalPL.postValue(newPl)
+                }
+
                 viewModelScope.launch {
                     repository.closePosition(position)
                 }
+                _updateTotalPL.postValue(true)
 
             }
         }
