@@ -1,7 +1,5 @@
 package com.krystofmacek.marketviz.ui.fragments.overview
 
-import android.graphics.Color
-import android.graphics.Paint
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -10,6 +8,7 @@ import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
 import com.krystofmacek.marketviz.model.databasemodels.MarketIndex
 import com.krystofmacek.marketviz.repository.MarketDataRepository
+import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -41,21 +40,8 @@ class OverviewViewModel @ViewModelInject constructor(
     }
 
     fun createCandleData(list: ArrayList<CandleEntry>) {
-
         val dataSet = CandleDataSet(list, "DataSet").apply {
-            color = Color.rgb(80, 80, 80)
-            shadowColor = Color.GRAY
-            shadowWidth = 0.8f
-
-            decreasingColor = Color.RED
-            decreasingPaintStyle = Paint.Style.FILL
-
-            increasingColor = Color.GREEN
-            increasingPaintStyle = Paint.Style.FILL
-
-            neutralColor = Color.GRAY
-
-            setDrawValues(false)
+            Utils.setupCandlestickDataSet(this)
         }
 
         candleData.postValue(CandleData(dataSet))

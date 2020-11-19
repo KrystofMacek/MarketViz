@@ -14,7 +14,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.databinding.FragmentDetailsBinding
+import com.krystofmacek.marketviz.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_details.*
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.fragment_details) {
@@ -33,8 +35,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             .apply {
                 this.lifecycleOwner = viewLifecycleOwner
                 this.viewModel = detailsViewModel
-            }
 
+                fragmentDetailsChart.apply {
+                    Utils.setupCandleStickChart(this)
+                }
+            }
 
         subscribeObservers()
 
@@ -42,6 +47,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
     private fun subscribeObservers() {
+
+        detailsViewModel.detailsQuote.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                detailsViewModel.loadChart()
+            }
+        })
+
         detailsViewModel.navigateToDialog.observe(viewLifecycleOwner, Observer {
             Log.i("DialogToggle", "navigate to dialog = '${it}'")
             if(it) {
@@ -69,6 +81,20 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     "${detailsViewModel.detailsQuote.value?.symbol} Position Created.",
                     Toast.LENGTH_LONG
                 ).show()
+            }
+        })
+
+        detailsViewModel.dataList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                detailsViewModel.createCandleData(it)
+            }
+        })
+        detailsViewModel.candleData.observe(viewLifecycleOwner, Observer {
+            it?.let { candleData ->
+                fragment_details_chart?.let { chart ->
+                    chart.data = candleData
+                    chart.invalidate()
+                }
             }
         })
     }

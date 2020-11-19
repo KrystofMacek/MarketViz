@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.ui.adapters.MarketIndexAdapter
 import com.krystofmacek.marketviz.ui.adapters.OnItemSelectedListener
+import com.krystofmacek.marketviz.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_overview.*
 import javax.inject.Inject
@@ -36,25 +37,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview), OnItemSelectedLis
          * Setup chart
          * */
         fragment_overview_chart?.apply {
-            this.isHighlightPerDragEnabled = true
-            this.setDrawBorders(true)
-            this.setBorderColor(Color.LTGRAY)
-            this.axisLeft?.apply {
-                setDrawGridLines(false)
-                setDrawLabels(false)
-            }
-            this.axisRight?.apply {
-                setDrawGridLines(false)
-                textColor = Color.WHITE
-            }
-            this.xAxis?.apply {
-                setDrawGridLines(false)
-                setDrawLabels(false)
-                granularity = 1f
-                isGranularityEnabled = true
-                setAvoidFirstLastClipping(false)
-            }
-
+            Utils.setupCandleStickChart(this)
         }
 
         subscribeObservers()
