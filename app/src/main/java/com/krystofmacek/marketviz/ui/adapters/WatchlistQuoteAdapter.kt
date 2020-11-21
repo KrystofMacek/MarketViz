@@ -59,6 +59,8 @@ class WatchlistQuoteAdapter: RecyclerView.Adapter<WatchlistQuoteAdapter.Watchlis
             val percChange = "${quote.percentageChange}%"
             ip_percentChange.text = percChange
 
+            this.isActivated = quote.percentageChange >= 0
+
             setOnClickListener(holder)
         }
 

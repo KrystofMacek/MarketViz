@@ -7,6 +7,7 @@ import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
 import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
+import com.krystofmacek.marketviz.model.databasemodels.QuoteHistory
 import com.krystofmacek.marketviz.repository.MarketDataRepository
 import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.coroutines.Dispatchers
@@ -40,17 +41,21 @@ class DetailsViewModel @ViewModelInject constructor(
     val candleData = MutableLiveData<CandleData>()
 
     fun loadChart() {
+
         Log.i("DetailChart", "${detailsQuote.value?.symbol}")
         detailsQuote.value?.symbol?.let { symbol ->
             viewModelScope.launch(Dispatchers.IO) {
                 val values = repository.loadHistoryData(symbol)
-                dataList.postValue(values)
+
+                if(values.isNotEmpty()) {
+                    dataList.postValue(values)
+                }
             }
         }
     }
 
     fun createCandleData(list: ArrayList<CandleEntry>) {
-        val dataSet = CandleDataSet(list, "DataSet").apply {
+        val dataSet = CandleDataSet(list, "${detailsQuote.value?.symbol}").apply {
             Utils.setupCandlestickDataSet(this)
         }
         candleData.postValue(CandleData(dataSet))

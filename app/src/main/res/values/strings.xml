@@ -2,8 +2,8 @@
     <string name="app_name">MarketViz</string>
 
     <!-- Fragment Overview -->
-    <string name="fragment_overview_heading_ch">Chart</string>
-    <string name="fragment_overview_heading_m">Markets</string>
+    <string name="fragment_overview_heading_ch">CHART</string>
+    <string name="fragment_overview_heading_m">MARKET INDICES</string>
     <string name="search_input_hint">tesla</string>
     <string name="td_default_num">1</string>
     <string name="td_total_label">TOTAL</string>
@@ -15,4 +15,6 @@
     <string name="wd_title">Remove stock from watchlist ?</string>
     <string name="wd_message">Would you like to remove this stock from your watchlist ?</string>
     <string name="wd_accpet">Remove stock</string>
+
+    <string name="your_watchlist">YOUR WATCHLIST</string>
 </resources>

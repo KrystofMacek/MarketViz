@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 <data>
     <variable
@@ -8,12 +10,11 @@
         type="com.krystofmacek.marketviz.ui.fragments.portfolio.PortfolioViewModel" />
 </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.fragments.portfolio.PortfolioFragment">
+    tools:context=".ui.fragments.portfolio.PortfolioFragment"
+    >
 
 
     <com.google.android.material.card.MaterialCardView
@@ -22,7 +23,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/colorPrimaryLight">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -44,7 +46,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toRightOf="@id/fragment_portfolio_label_PL"
                 app:layout_constraintBaseline_toBaselineOf="@id/fragment_portfolio_label_PL"
-                android:text="@{String.valueOf(viewModel.currentPL)}"
+                android:text="@{String.valueOf(viewModel.currentPL) + `$`}"
 
                 android:textSize="@dimen/fragment_portfolio_text_size"
                 android:padding="@dimen/fragment_portfolio_text_padding"/>
@@ -79,7 +81,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:text="@{String.valueOf(viewModel.totalPL)}"
+                android:text="@{String.valueOf(viewModel.totalPL) + `$`}"
 
                 android:textSize="@dimen/fragment_portfolio_text_size"
                 android:padding="@dimen/fragment_portfolio_text_padding"
@@ -104,13 +106,16 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:padding="@dimen/fragment_padding"
+        android:layout_marginTop="@dimen/margin_10"
         android:id="@+id/fragment_portfolio_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/portfolio_card"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        app:layout_constraintTop_toBottomOf="@+id/portfolio_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

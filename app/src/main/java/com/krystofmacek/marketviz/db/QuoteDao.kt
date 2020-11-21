@@ -59,7 +59,7 @@ interface QuoteDao {
     fun updateHistory(symbol: String, records: List<HistoryRecord>)
 
     @Query("SELECT * FROM histories_table WHERE symbol = :symbol")
-    fun getHistory(symbol: String): QuoteHistory
+    fun getHistory(symbol: String): QuoteHistory?
 
 
 }

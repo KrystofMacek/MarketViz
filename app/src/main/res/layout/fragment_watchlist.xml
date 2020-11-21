@@ -4,16 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.fragments.watchlist.WatchlistFragment">
+    tools:context=".ui.fragments.watchlist.WatchlistFragment"
+    android:padding="@dimen/padding_10"
+    >
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_overview_heading_Markets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_watchlist"
+        android:textSize="@dimen/fragment_overview_heading_textSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="403dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_overview_heading_Markets"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/fragment_watchlist_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        android:paddingTop="@dimen/padding_10"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

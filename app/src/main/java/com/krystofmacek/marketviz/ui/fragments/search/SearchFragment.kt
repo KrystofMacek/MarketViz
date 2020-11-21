@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,9 +15,7 @@ import com.krystofmacek.marketviz.databinding.FragmentSearchBinding
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.ui.adapters.AutoCompleteAdapter
 import com.krystofmacek.marketviz.ui.adapters.OnItemSelectedListener
-import com.krystofmacek.marketviz.utils.Constants.SEARCH_FRAGMENT
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
 @AndroidEntryPoint

@@ -58,6 +58,8 @@ class MarketIndexAdapter: RecyclerView.Adapter<MarketIndexAdapter.QuoteViewHolde
             val percChange = "${marketIndex.percentageChange}%"
             ip_percentChange.text = percChange
 
+            this.isActivated = marketIndex.percentageChange >= 0
+
 
             setOnClickListener(holder)
         }

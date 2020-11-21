@@ -73,6 +73,8 @@ class PositionAdapter: RecyclerView.Adapter<PositionAdapter.PositionViewHolder>(
                 else -> "SHORT"
             }
 
+            this.isActivated = netDifference >= 0
+
             setOnClickListener(holder)
         }
 
@@ -85,7 +87,7 @@ class PositionAdapter: RecyclerView.Adapter<PositionAdapter.PositionViewHolder>(
         for(i in differ.currentList) {
             pl += (i.lastPrice - i.entryPrice) * i.size
         }
-        return pl
+        return Utils.round(pl)
     }
 
 

@@ -2,20 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/overviewFragment"
-        android:icon="@drawable/ic_search_foreground"
-        android:title="Markets"/>
+        android:icon="@drawable/ic_market"
+        android:title="MARKETS"/>
 
     <item android:id="@+id/searchFragment"
-        android:icon="@drawable/ic_search_foreground"
-        android:title="Search"/>
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="SEARCH"/>
 
     <item android:id="@+id/watchlistFragment"
-        android:icon="@drawable/ic_search_foreground"
-        android:title="Watchlist"/>
+        android:icon="@drawable/ic_baseline_star_border_24"
+        android:title="WATCHLIST"/>
 
     <item  android:id="@+id/portfolioFragment"
-        android:icon="@drawable/ic_search_foreground"
-        android:title="Portfolio"
+        android:icon="@drawable/ic_portfolio"
+        android:title="PORTFOLIO"
         />
 
 </menu>

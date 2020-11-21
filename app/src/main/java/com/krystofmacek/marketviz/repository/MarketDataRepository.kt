@@ -72,10 +72,13 @@ class MarketDataRepository @Inject constructor(
                 volume = quote.volume,
                 avgVolume = quote.avgVolume
             )
+
+            this.getHistory(keyword)
+
             quoteDao.clearDetailsTable()
             quoteDao.insertDetailsQuote(searchQuoteResult)
 
-            this.getHistory(keyword)
+
         }
     }
 
@@ -196,25 +199,29 @@ class MarketDataRepository @Inject constructor(
         val list = ArrayList<CandleEntry>()
         quoteDao.getHistory(symbol).let {
 
-            Log.i("loadChart", "repo symbol - ${it.symbol}")
+            it?.let {
+                Log.i("loadChart", "repo symbol - ${it}")
 
-            for ((index, r) in it.records.withIndex()) {
+                for ((index, r) in it.records.withIndex()) {
 
-                val entry = CandleEntry(
-                    index.toFloat(),
-                    r.high.toFloat(),
-                    r.low.toFloat(),
-                    r.open.toFloat(),
-                    r.close.toFloat()
-                )
+                    val entry = CandleEntry(
+                        index.toFloat(),
+                        r.high.toFloat(),
+                        r.low.toFloat(),
+                        r.open.toFloat(),
+                        r.close.toFloat()
+                    )
 
-                Log.i("loadChart", "entry - ${entry.x}, ${entry.high}, ${entry.low}")
+                    Log.i("loadChart", "entry - ${entry.x}, ${entry.high}, ${entry.low}")
 
-                list.add(entry)
+                    list.add(entry)
+                }
+                Log.i("loadChart", "repo list size - ${list.size}")
+
             }
-            Log.i("loadChart", "repo list size - ${list.size}")
 
             return list
+
         }
     }
 

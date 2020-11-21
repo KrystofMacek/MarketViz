@@ -19,28 +19,31 @@ class OverviewViewModel @ViewModelInject constructor(
     val marketIndices: LiveData<List<MarketIndex>> = repository.getAllIndices().asLiveData()
 
     val selectedItem = MutableLiveData<Int>()
+    private val selectedItemSymbol = MutableLiveData<String>()
 
     val dataList = MutableLiveData<ArrayList<CandleEntry>>()
 
     val candleData = MutableLiveData<CandleData>()
 
 
-    fun loadChart(it: Int) {
 
-        Log.i("loadChart", "loadChart()")
+
+    fun loadChart(it: Int) {
         marketIndices.value?.get(it)?.symbol?.let { symbol ->
 
-            Log.i("loadChart", "$symbol")
-
+            selectedItemSymbol.postValue(symbol)
             viewModelScope.launch(Dispatchers.IO) {
                 val values = repository.loadHistoryData(symbol)
-                dataList.postValue(values)
+                if(values.isNotEmpty()) {
+                    dataList.postValue(values)
+                }
+                
             }
         }
     }
 
     fun createCandleData(list: ArrayList<CandleEntry>) {
-        val dataSet = CandleDataSet(list, "DataSet").apply {
+        val dataSet = CandleDataSet(list, selectedItemSymbol.value).apply {
             Utils.setupCandlestickDataSet(this)
         }
 

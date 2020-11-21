@@ -6,10 +6,10 @@
     <dimen name="margin_10">10dp</dimen>
 
     <!-- ITEM QUOTE -->
-    <dimen name="item_quote_padding">10dp</dimen>
-    <dimen name="item_quote_textView_padding">5dp</dimen>
-    <dimen name="item_quote_textSize_small">17sp</dimen>
-    <dimen name="item_quote_textSize_big">20sp</dimen>
+    <dimen name="item_quote_padding">5dp</dimen>
+    <dimen name="item_quote_textView_padding">3dp</dimen>
+    <dimen name="item_quote_textSize_small">15sp</dimen>
+    <dimen name="item_quote_textSize_big">18sp</dimen>
     <!-- OVERVIEW -->
     <dimen name="fragment_overview_heading_textSize">20sp</dimen>
     <!-- PORTFOLIO -->
@@ -24,4 +24,5 @@
     <dimen name="td_textSize">25sp</dimen>
     <dimen name="margin_20">20dp</dimen>
     <dimen name="td_padding">40dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
 </resources>

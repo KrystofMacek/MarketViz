@@ -5,15 +5,6 @@ object Constants {
 
     const val DEFAULT_FIELDS = "fiftyTwoWkHigh,fiftyTwoWkHighDate,fiftyTwoWkLow,fiftyTwoWkLowDate,avgVolume,previousClose"
 
-    // network
-    const val MARKET_INDEX = 1
-    const val SEARCH_RESULT = 2
-
-
-    // source dest
-    const val SEARCH_FRAGMENT = "search"
-    const val WATCHLIST_FRAGMENT = "watchlist"
-
     const val SHORT_POSITION = 0
     const val LONG_POSITION = 1
 

@@ -28,7 +28,8 @@ object Utils {
                 setDrawLabels(false)
             }
             this.axisRight?.apply {
-                setDrawGridLines(false)
+                setDrawGridLines(true)
+                setDrawLabels(true)
                 textColor = Color.WHITE
             }
             this.xAxis?.apply {
@@ -37,6 +38,7 @@ object Utils {
                 granularity = 1f
                 isGranularityEnabled = true
                 setAvoidFirstLastClipping(false)
+                textColor = Color.WHITE
             }
         }
     }
