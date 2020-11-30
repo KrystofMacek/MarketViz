@@ -9,6 +9,12 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MarketDataAPI {
+
+    /**
+     * @param symbol - quote symbols
+     * @param fields - data for each quote
+     * */
+
     @GET("/getQuote${BuildConfig.MARKET_DATA_API_KEY}")
     suspend fun getQuotes(
         @Query("symbols")
@@ -17,6 +23,13 @@ interface MarketDataAPI {
         fields: String
     ): Response<QuoteResponse>
 
+    /**
+     * @param symbol - quote symbols
+     * @param type - time-frame of records - minutes, hours, daily..
+     * @param startDate - date of first record
+     * @param endDate - date of last record
+     * @param order - order of records asc/desc
+     * */
     @GET("/getHistory${BuildConfig.MARKET_DATA_API_KEY}")
     suspend fun getHistory(
         @Query("symbol")

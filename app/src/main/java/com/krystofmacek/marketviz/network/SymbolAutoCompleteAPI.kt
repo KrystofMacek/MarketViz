@@ -10,6 +10,10 @@ import retrofit2.http.Path
 
 interface SymbolAutoCompleteAPI {
 
+
+    /**
+     * @param keyword - for matching symbol
+     * */
     @GET("${BuildConfig.SYMBOL_AUTOFILL_BASE_URL}/{keyword}")
     suspend fun getAutoCompleteSymbols(
         @Path("keyword") keyword: String

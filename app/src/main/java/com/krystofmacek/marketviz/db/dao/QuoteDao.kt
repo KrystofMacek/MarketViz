@@ -1,14 +1,13 @@
-package com.krystofmacek.marketviz.db
+package com.krystofmacek.marketviz.db.dao
 
 import androidx.room.*
 import com.krystofmacek.marketviz.model.databasemodels.*
-import com.krystofmacek.marketviz.model.networkmodels.marketdata.Quote
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface QuoteDao {
 
-    /** Market Index */
+    /** Market Index - Overview F */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMarketIndex(index: MarketIndex)
 
@@ -25,22 +24,25 @@ interface QuoteDao {
     @Query("SELECT * FROM details_quote_table")
     fun getDetailsQuote(): Flow<DetailsQuote>
 
-    /** Add to Watchlist */
+    /** Managing Watchlist - Watchlist F. */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWatchlistQuote(quote: WatchlistQuote)
 
     @Query("SELECT * FROM watchlist_table")
     fun getWatchlist(): Flow<List<WatchlistQuote>>
 
-    /** Portfolio */
+    @Query("SELECT symbol FROM watchlist_table")
+    fun getWatchlistSymbols(): List<String>
+
+    @Query("UPDATE watchlist_table SET lastPrice = :lastPrice, netChange = :netChange, percentageChange = :percentageChange WHERE symbol = :symbol")
+    fun updateWatchlistQuote(symbol: String, lastPrice: Double, netChange: Double, percentageChange: Double)
+
+    @Delete
+    suspend fun removeFromWatchlist(watchlistQuote: WatchlistQuote)
+
+    /** Managing Positions - Portfolio F. */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPosition(position: Position)
-
-    @Query("SELECT * FROM positions_table")
-    fun getPortfolio(): Flow<List<Position>>
-
-    @Query("SELECT symbol FROM positions_table")
-    fun getPortfolioSymbols(): List<String>
 
     @Delete
     suspend fun deletePosition(position: Position)
@@ -48,10 +50,13 @@ interface QuoteDao {
     @Query("UPDATE positions_table SET lastPrice = :lastPrice WHERE symbol = :symbol")
     fun updatePosition(symbol: String, lastPrice: Double)
 
-    @Delete
-    suspend fun removeFromWatchlist(watchlistQuote: WatchlistQuote)
+    @Query("SELECT * FROM positions_table")
+    fun getPortfolio(): Flow<List<Position>>
 
-    /** Quote History */
+    @Query("SELECT symbol FROM positions_table")
+    fun getPortfolioSymbols(): List<String>
+
+    /** Quote History - Details F. Overview F.*/
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuoteHistory(quoteHistory: QuoteHistory)
 
@@ -60,6 +65,8 @@ interface QuoteDao {
 
     @Query("SELECT * FROM histories_table WHERE symbol = :symbol")
     fun getHistory(symbol: String): QuoteHistory?
+
+
 
 
 }

@@ -1,8 +1,6 @@
 package com.krystofmacek.marketviz.di
 
-import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -13,7 +11,7 @@ import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.krystofmacek.marketviz.BuildConfig
-import com.krystofmacek.marketviz.db.QuoteDao
+import com.krystofmacek.marketviz.db.dao.QuoteDao
 import com.krystofmacek.marketviz.db.QuoteDatabase
 import com.krystofmacek.marketviz.network.MarketDataAPI
 import com.krystofmacek.marketviz.network.MarketDataService
@@ -61,7 +59,7 @@ object AppModule {
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     ).build()
 
-    /** Retrofit instance */
+    /** Retrofit instances */
     @Provides
     @Singleton
     @Named("MarketData")
@@ -87,7 +85,9 @@ object AppModule {
             .build()
 
 
-
+    /**
+     * API and Services
+     * */
     @Provides
     @Singleton
     fun provideMarketDataApi(@Named("MarketData")retrofit: Retrofit): MarketDataAPI = retrofit.create(MarketDataAPI::class.java)
@@ -95,7 +95,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMarketDataService(nh: NetworkHelper, api: MarketDataAPI, generator: IndexListGenerator, @ApplicationContext app: Context) = MarketDataService(nh, api, generator, app)
-
 
     @Provides
     @Singleton
@@ -105,7 +104,9 @@ object AppModule {
     @Singleton
     fun provideSymbolAutoCompleteService(nh: NetworkHelper, api: SymbolAutoCompleteAPI) = SymbolAutoCompleteService(nh, api)
 
-    /** Room Database */
+    /**
+     * Room Database
+     * */
     @Provides
     @Singleton
     fun provideQuoteDatabase(
@@ -132,15 +133,14 @@ object AppModule {
                     .enqueue()
             }
         }
-    )
-        .fallbackToDestructiveMigration()
-        .build()
+    ).fallbackToDestructiveMigration().build()
 
      /** DAO */
     @Provides
     @Singleton
     fun provideQuoteDao(db: QuoteDatabase): QuoteDao = db.getQuoteDao()
 
+    /** Repository */
     @Provides
     @Singleton
     fun provideRepository(
@@ -153,7 +153,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMarketIndexAdapter(): MarketIndexAdapter = MarketIndexAdapter()
-
 
     @Provides
     @Singleton

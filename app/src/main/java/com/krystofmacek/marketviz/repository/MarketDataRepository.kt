@@ -1,9 +1,7 @@
 package com.krystofmacek.marketviz.repository
 
-import android.util.Log
-import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.CandleEntry
-import com.krystofmacek.marketviz.db.QuoteDao
+import com.krystofmacek.marketviz.db.dao.QuoteDao
 import com.krystofmacek.marketviz.model.databasemodels.*
 import com.krystofmacek.marketviz.model.networkmodels.autocomplete.Symbols
 import com.krystofmacek.marketviz.network.MarketDataService
@@ -12,10 +10,6 @@ import com.krystofmacek.marketviz.utils.Constants.LONG_POSITION
 import com.krystofmacek.marketviz.utils.Constants.SHORT_POSITION
 import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -25,6 +19,8 @@ class MarketDataRepository @Inject constructor(
     private val symbolAutoCompleteService: SymbolAutoCompleteService,
     private val quoteDao: QuoteDao
 ) {
+
+    /** MARKET OVERVIEW */
 
     /** Load data for market indices */
     suspend fun loadIndices() {
@@ -39,7 +35,6 @@ class MarketDataRepository @Inject constructor(
                     percentageChange = quote.percentChange
                 )
                 quoteDao.insertMarketIndex(index)
-                // get history for each symbol
                 this.getHistory(quote.symbol)
             }
         }
@@ -47,6 +42,9 @@ class MarketDataRepository @Inject constructor(
 
     /** get indices from database */
     fun getAllIndices(): Flow<List<MarketIndex>> = quoteDao.getMarketIndices()
+
+
+    /** SEARCH AUTOCOMPLETE */
 
     /** get autocomplete data for keyword */
     suspend fun getAutoCompleteSymbolsFor(keyword: String): Symbols {
@@ -56,7 +54,7 @@ class MarketDataRepository @Inject constructor(
         return Symbols()
     }
 
-    /** get data for specified Quote */
+    /** get data for quote */
     suspend fun searchQuote(keyword: String) {
         marketDataService.searchQuote(keyword).data?.let {
             val quote = it.quotes.first()
@@ -72,18 +70,22 @@ class MarketDataRepository @Inject constructor(
                 volume = quote.volume,
                 avgVolume = quote.avgVolume
             )
-
             this.getHistory(keyword)
 
             quoteDao.clearDetailsTable()
             quoteDao.insertDetailsQuote(searchQuoteResult)
 
-
         }
     }
 
+
+    /** QUOTE DETAILS */
+
+    /** get data for specified Quote */
     fun getDetailsQuote(): Flow<DetailsQuote> = quoteDao.getDetailsQuote()
 
+
+    /** WATCHLIST */
     suspend fun addToWatchlist(quote: DetailsQuote?) {
         quote?.let {
             val watchlistQuote = WatchlistQuote(
@@ -104,7 +106,11 @@ class MarketDataRepository @Inject constructor(
         quoteDao.removeFromWatchlist(watchlistQuote)
     }
 
-    /** Portfolio */
+    /** PORTFOLIO */
+
+    /**
+     * Create Long position
+     * */
     suspend fun longStock(quote: DetailsQuote?, shares: Int) {
         quote?.let {
             val position = Position(
@@ -119,6 +125,10 @@ class MarketDataRepository @Inject constructor(
             quoteDao.insertPosition(position)
         }
     }
+
+    /**
+     * Create Short position
+     * */
     suspend fun shortStock(quote: DetailsQuote?, shares: Int) {
         quote?.let {
             val position = Position(
@@ -140,34 +150,53 @@ class MarketDataRepository @Inject constructor(
         quoteDao.deletePosition(position)
     }
 
-    suspend fun updatePortfolioData() {
+
+    /** HISTORY */
+
+    /**
+     * Get Quote History from API and save to DB
+     * */
+    suspend fun updatePortfolioAndWatchlistData() {
         quoteDao.getPortfolioSymbols().let {
             var quotes = ""
             for (i in it) {
                 quotes += "$i,"
             }
-            loadPortfolioData(quotes)
+            loadAndUpdatePortfolioData(quotes)
         }
-
+        quoteDao.getWatchlistSymbols().let {
+            var quotes = ""
+            for (i in it) {
+                quotes += "$i,"
+            }
+            loadAndUpdateWatchlistData(quotes)
+        }
     }
-    private suspend fun loadPortfolioData(quotes: String) {
+
+    private suspend fun loadAndUpdatePortfolioData(quotes: String) {
         marketDataService.loadPortfolioData(quotes).data?.let { response ->
             for (quote in response.quotes) {
-                Log.i("load portfolio data", "quote last price: ${quote.lastPrice}")
                 quoteDao.updatePosition(quote.symbol, quote.lastPrice)
             }
         }
     }
 
+    private suspend fun loadAndUpdateWatchlistData(quotes: String) {
+        marketDataService.loadWatchlistData(quotes).data?.let { response ->
+            for (quote in response.quotes) {
+                quoteDao.updateWatchlistQuote(quote.symbol, quote.lastPrice, quote.netChange, quote.percentChange)
+            }
+        }
+    }
 
-    /** Quote History */
-    suspend fun getHistory(symbol: String) {
+
+    /**
+     * Get Quote History from API and save to DB
+     * */
+    private suspend fun getHistory(symbol: String) {
         marketDataService.getHistory(symbol).data?.let {
-
             val historySymbol = it.records[0].symbol
-
             val historyRecords = mutableListOf<HistoryRecord>()
-
             for (r in it.records) {
                 historyRecords.add(
                     HistoryRecord(
@@ -180,28 +209,22 @@ class MarketDataRepository @Inject constructor(
                         tradingDay = r.tradingDay
                     )
                 )
-
-                Log.i("getHistory", r.toString())
             }
-
             val quoteHistory = QuoteHistory(
                 symbol = historySymbol,
                 records = historyRecords
             )
-
             quoteDao.insertQuoteHistory(quoteHistory)
         }
     }
 
+    /**
+     * Load Quote History from DB create and return list of CandleEntries
+     * */
     fun loadHistoryData(symbol: String): ArrayList<CandleEntry> {
-        Log.i("loadChart", "repo - loadHistoryData()")
-
         val list = ArrayList<CandleEntry>()
         quoteDao.getHistory(symbol).let {
-
             it?.let {
-                Log.i("loadChart", "repo symbol - ${it}")
-
                 for ((index, r) in it.records.withIndex()) {
 
                     val entry = CandleEntry(
@@ -211,17 +234,10 @@ class MarketDataRepository @Inject constructor(
                         r.open.toFloat(),
                         r.close.toFloat()
                     )
-
-                    Log.i("loadChart", "entry - ${entry.x}, ${entry.high}, ${entry.low}")
-
                     list.add(entry)
                 }
-                Log.i("loadChart", "repo list size - ${list.size}")
-
             }
-
             return list
-
         }
     }
 

@@ -9,6 +9,9 @@ import com.krystofmacek.marketviz.repository.MarketDataRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
+/**
+ * Worker running update on market indices
+ * */
 class IndicesDataUpdateWorker @WorkerInject constructor(
     @Assisted context: Context,
     @Assisted workerParameters: WorkerParameters,

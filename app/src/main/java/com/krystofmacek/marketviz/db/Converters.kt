@@ -9,6 +9,9 @@ class Converters {
 
     private val gson = Gson()
 
+    /**
+     * Methods to convert list of History Records to String, to be saved in database
+     * */
     @TypeConverter
     fun historyRecordToString(list: List<HistoryRecord>): String {
         return gson.toJson(list)

@@ -4,6 +4,10 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
+
+/**
+ * INTERNET CONNECTIVITY HELPER CLASS
+ * */
 class NetworkHelper(private val app: Context) {
 
     fun checkInternetConnection(): Boolean {

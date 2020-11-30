@@ -1,7 +1,6 @@
 package com.krystofmacek.marketviz.network
 
 import android.content.Context
-import android.util.Log
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.HistoryResponse
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.QuoteResponse
 import com.krystofmacek.marketviz.utils.*
@@ -12,9 +11,9 @@ import java.lang.Exception
 import javax.inject.Inject
 
 class MarketDataService @Inject constructor(
-    val networkHelper: NetworkHelper,
+    private val networkHelper: NetworkHelper,
     val api: MarketDataAPI,
-    val gen: IndexListGenerator,
+    private val gen: IndexListGenerator,
     val app: Context
 ) {
 
@@ -29,14 +28,17 @@ class MarketDataService @Inject constructor(
 
     }
 
+    /** Search Quote */
     suspend fun searchQuote(quote: String): Resource<QuoteResponse> {
         return safeGetQuote { api.getQuotes(quote, DEFAULT_FIELDS) }
     }
 
-    /** methods to update data for potrfolio */
+    /** Methods to update data for portfolio and watchlist*/
     suspend fun loadPortfolioData(quotes: String): Resource<QuoteResponse> {
+        return safeGetQuote { api.getQuotes(quotes, DEFAULT_FIELDS) }
+    }
 
-        Log.i("WorkerPortfUpdate", "Load Portfolio")
+    suspend fun loadWatchlistData(quotes: String): Resource<QuoteResponse> {
         return safeGetQuote { api.getQuotes(quotes, DEFAULT_FIELDS) }
     }
 
@@ -78,9 +80,6 @@ class MarketDataService @Inject constructor(
 
     /** Handle get quote requests and resp */
     private inline fun safeGetQuote(responseFunction: ()  -> Response<QuoteResponse>): Resource<QuoteResponse> {
-
-        Log.i("WorkerPortfUpdate", "safeGetQuote")
-
         return if(networkHelper.checkInternetConnection()) {
             try {
                 handleQuoteResponse(responseFunction.invoke())
@@ -94,12 +93,8 @@ class MarketDataService @Inject constructor(
     }
 
     private fun handleQuoteResponse(response: Response<QuoteResponse>): Resource<QuoteResponse> {
-
-        Log.i("WorkerPortfUpdate", "handle quote response")
         if(response.isSuccessful) {
-            Log.i("WorkerPortfUpdate", "response is success")
             response.body()?.let {
-                Log.i("WorkerPortfUpdate", "return $it")
                 return Resource.success(it)
             }
         }

@@ -10,14 +10,17 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object Utils {
+    /** round double to two decimal points */
     fun round(x: Double):Double {
         return BigDecimal(x).setScale(2, RoundingMode.HALF_EVEN).toDouble()
     }
 
+    /** get today date */
     fun getToday(): String {
         return LocalDateTime.now().format( DateTimeFormatter.ofPattern("yyyyMMdd"))
     }
 
+    /** Configuration of candlestick chart */
     fun setupCandleStickChart(chart: CandleStickChart) {
         chart.apply {
             this.isHighlightPerDragEnabled = true
@@ -42,6 +45,7 @@ object Utils {
             }
         }
     }
+    /** Configuration of candlestick data set */
     fun setupCandlestickDataSet(dataSet: CandleDataSet) {
         dataSet.apply {
             color = Color.rgb(80, 80, 80)

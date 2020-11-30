@@ -8,16 +8,15 @@ import java.lang.Exception
 import javax.inject.Inject
 
 class SymbolAutoCompleteService @Inject constructor(
-    val networkHelper: NetworkHelper,
+    private val networkHelper: NetworkHelper,
     val api: SymbolAutoCompleteAPI
 ) {
-
-
 
     suspend fun getSymbolsFor(keyword: String): Resource<Symbols> {
         return safeApiCall { api.getAutoCompleteSymbols(keyword) }
     }
 
+    /** Handle get symbol autocomplete requests and resp */
 
     private inline fun safeApiCall(responseFunction: () -> Response<Symbols>): Resource<Symbols> {
 

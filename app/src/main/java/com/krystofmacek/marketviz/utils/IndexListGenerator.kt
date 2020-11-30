@@ -2,6 +2,10 @@ package com.krystofmacek.marketviz.utils
 
 import java.time.LocalDate
 
+/**
+ * CREATES STRING FOR CURRENTLY TRADED MARKET INDICES REQUEST
+ * */
+
 class IndexListGenerator {
 
     private val SP = "ES"
