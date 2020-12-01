@@ -8,7 +8,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.databinding.FragmentSearchBinding
@@ -29,12 +28,11 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     @Inject
     lateinit var autoCompleteAdapter: AutoCompleteAdapter
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = DataBindingUtil
             .inflate<FragmentSearchBinding>(inflater, R.layout.fragment_search, container, false)
@@ -62,17 +60,17 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     }
 
     private fun subscribeObservers() {
-        searchViewModel.symbolKeyWord.observe(viewLifecycleOwner, Observer {
+        searchViewModel.symbolKeyWord.observe(viewLifecycleOwner, {
             val keyW = it ?: ""
             searchViewModel.getAutoCompleteSymbols(keyW)
         })
 
-        searchViewModel.autoCompletedList.observe(viewLifecycleOwner, Observer {
+        searchViewModel.autoCompletedList.observe(viewLifecycleOwner, {
             val symbols = it ?: Symbols()
             autoCompleteAdapter.submitList(symbols)
         })
 
-        searchViewModel.navigateToDetails.observe(viewLifecycleOwner, Observer {
+        searchViewModel.navigateToDetails.observe(viewLifecycleOwner, {
             if(it == true) {
                 this.findNavController().navigate(
                     SearchFragmentDirections.actionSearchFragmentToDetailsFragment()
@@ -81,7 +79,6 @@ class SearchFragment : Fragment(R.layout.fragment_search),
             }
         })
     }
-
 
     override fun onItemSelected(position: Int) {
         val selectedItem = searchViewModel.autoCompletedList.value?.get(position)
@@ -93,6 +90,4 @@ class SearchFragment : Fragment(R.layout.fragment_search),
     private fun searchQuote(quote: String) {
         searchViewModel.searchQuote(quote)
     }
-
-
 }

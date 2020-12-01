@@ -1,6 +1,5 @@
 package com.krystofmacek.marketviz.ui.fragments.overview
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.github.mikephil.charting.data.CandleData
@@ -25,9 +24,6 @@ class OverviewViewModel @ViewModelInject constructor(
 
     val candleData = MutableLiveData<CandleData>()
 
-
-
-
     fun loadChart(it: Int) {
         marketIndices.value?.get(it)?.symbol?.let { symbol ->
 
@@ -37,7 +33,6 @@ class OverviewViewModel @ViewModelInject constructor(
                 if(values.isNotEmpty()) {
                     dataList.postValue(values)
                 }
-                
             }
         }
     }
@@ -46,9 +41,6 @@ class OverviewViewModel @ViewModelInject constructor(
         val dataSet = CandleDataSet(list, selectedItemSymbol.value).apply {
             Utils.setupCandlestickDataSet(this)
         }
-
         candleData.postValue(CandleData(dataSet))
-
     }
-
 }

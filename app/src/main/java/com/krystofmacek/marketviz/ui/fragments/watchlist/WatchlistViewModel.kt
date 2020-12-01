@@ -18,7 +18,6 @@ class WatchlistViewModel @ViewModelInject constructor(
     /** Holds the watchlist */
     val watchList = repository.getWatchlist().asLiveData()
 
-
     /** Handle removing selected item from watchlist */
     fun removeFromWatchlist() {
         watchList.value?.let { list ->

@@ -1,12 +1,8 @@
 package com.krystofmacek.marketviz.ui.fragments.portfolio
 
-import android.content.Context
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.krystofmacek.marketviz.model.databasemodels.Position
 import com.krystofmacek.marketviz.repository.MarketDataRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 
 class PortfolioViewModel @ViewModelInject constructor(
@@ -34,7 +30,6 @@ class PortfolioViewModel @ViewModelInject constructor(
     val selectedItem = MutableLiveData<Int>()
 
     fun closePosition() {
-        Log.i("plTotal", "closing position")
 
         portfolioList.value?.let { list ->
             selectedItem.value?.let { index ->

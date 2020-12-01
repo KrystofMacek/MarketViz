@@ -37,7 +37,4 @@ class SearchViewModel @ViewModelInject constructor(
         }
         _navigateToDetails.value = true
     }
-
-
-
 }

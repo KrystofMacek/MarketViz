@@ -1,6 +1,5 @@
 package com.krystofmacek.marketviz.utils
 
-import com.krystofmacek.marketviz.utils.Constants
 
 /**
  * WRAPPER CLASS FOR API RESPONSES

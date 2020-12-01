@@ -7,7 +7,6 @@ import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
 import com.krystofmacek.marketviz.model.databasemodels.DetailsQuote
-import com.krystofmacek.marketviz.model.databasemodels.QuoteHistory
 import com.krystofmacek.marketviz.repository.MarketDataRepository
 import com.krystofmacek.marketviz.utils.Utils
 import kotlinx.coroutines.Dispatchers
@@ -89,7 +88,6 @@ class DetailsViewModel @ViewModelInject constructor(
                 t.printStackTrace()
             }
         }
-
     }
 
     fun shortStock() {
@@ -113,6 +111,7 @@ class DetailsViewModel @ViewModelInject constructor(
             _positionCreated.postValue(!it)
         }
     }
+
     private fun toggleAddedToWatchlist() {
         _addToWatchlist.value?.let {
             _addToWatchlist.postValue(!it)

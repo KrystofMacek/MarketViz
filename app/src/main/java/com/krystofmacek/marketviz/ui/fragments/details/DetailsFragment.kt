@@ -1,7 +1,6 @@
 package com.krystofmacek.marketviz.ui.fragments.details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.databinding.FragmentDetailsBinding
 import com.krystofmacek.marketviz.utils.Utils
@@ -23,12 +20,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val detailsViewModel: DetailsViewModel by viewModels()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = DataBindingUtil
             .inflate<FragmentDetailsBinding>(inflater, R.layout.fragment_details, container, false)
@@ -48,14 +44,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun subscribeObservers() {
 
-        detailsViewModel.detailsQuote.observe(viewLifecycleOwner, Observer {
+        detailsViewModel.detailsQuote.observe(viewLifecycleOwner, {
             it?.let {
                 detailsViewModel.loadChart()
             }
         })
 
-        detailsViewModel.navigateToDialog.observe(viewLifecycleOwner, Observer {
-            Log.i("DialogToggle", "navigate to dialog = '${it}'")
+        detailsViewModel.navigateToDialog.observe(viewLifecycleOwner, {
             if(it) {
                 this.findNavController().navigate(
                     DetailsFragmentDirections.actionDetailsFragmentToTradeDialog()
@@ -64,7 +59,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             }
         })
 
-        detailsViewModel.addToWatchlist.observe(viewLifecycleOwner, Observer {
+        detailsViewModel.addToWatchlist.observe(viewLifecycleOwner, {
             if(it) {
                 Toast.makeText(
                     requireContext(),
@@ -74,7 +69,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             }
         })
 
-        detailsViewModel.positionCreated.observe(viewLifecycleOwner, Observer {
+        detailsViewModel.positionCreated.observe(viewLifecycleOwner, {
             if(it) {
                 Toast.makeText(
                     requireContext(),
@@ -84,12 +79,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             }
         })
 
-        detailsViewModel.dataList.observe(viewLifecycleOwner, Observer {
+        detailsViewModel.dataList.observe(viewLifecycleOwner, {
             it?.let {
                 detailsViewModel.createCandleData(it)
             }
         })
-        detailsViewModel.candleData.observe(viewLifecycleOwner, Observer {
+        detailsViewModel.candleData.observe(viewLifecycleOwner, {
             it?.let { candleData ->
                 fragment_details_chart?.let { chart ->
                     chart.data = candleData

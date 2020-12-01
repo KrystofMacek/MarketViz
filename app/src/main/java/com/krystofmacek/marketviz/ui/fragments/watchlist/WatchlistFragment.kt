@@ -16,7 +16,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class WatchlistFragment : Fragment(R.layout.fragment_watchlist), OnItemSelectedListener {
 
-
     private val listener = this
 
     private val watchlistViewModel: WatchlistViewModel by viewModels()
@@ -31,17 +30,15 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist), OnItemSelectedL
             this.adapter = watchlistQuoteAdapter
             watchlistQuoteAdapter.onItemSelectedListener = listener
         }
-
         subscribeObservers()
     }
 
     private fun subscribeObservers() {
-        watchlistViewModel.watchList.observe(viewLifecycleOwner, Observer {
+        watchlistViewModel.watchList.observe(viewLifecycleOwner, {
             watchlistQuoteAdapter.submitList(it)
         })
     }
 
-    /** Handle selecting item from recycler view */
     override fun onItemSelected(position: Int) {
         watchlistViewModel.selectedItem.postValue(position)
         displayDialog()

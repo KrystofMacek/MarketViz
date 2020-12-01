@@ -1,12 +1,9 @@
 package com.krystofmacek.marketviz.ui.fragments.overview
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.krystofmacek.marketviz.R
 import com.krystofmacek.marketviz.ui.adapters.MarketIndexAdapter
 import com.krystofmacek.marketviz.ui.adapters.OnItemSelectedListener
@@ -33,9 +30,6 @@ class OverviewFragment : Fragment(R.layout.fragment_overview), OnItemSelectedLis
             marketIndexAdapter.onItemSelectedListener = listener
         }
 
-        /**
-         * Setup chart
-         * */
         fragment_overview_chart?.apply {
             Utils.setupCandleStickChart(this)
         }
@@ -45,26 +39,24 @@ class OverviewFragment : Fragment(R.layout.fragment_overview), OnItemSelectedLis
 
 
     private fun subscribeObservers() {
-        overviewViewModel.marketIndices.observe(viewLifecycleOwner, Observer {
+        overviewViewModel.marketIndices.observe(viewLifecycleOwner, {
             marketIndexAdapter.submitList(it)
         })
 
-        overviewViewModel.selectedItem.observe(viewLifecycleOwner, Observer {
+        overviewViewModel.selectedItem.observe(viewLifecycleOwner, {
             it?.let {
                 overviewViewModel.loadChart(it)
             }
         })
 
-        overviewViewModel.dataList.observe(viewLifecycleOwner, Observer {
+        overviewViewModel.dataList.observe(viewLifecycleOwner, {
             it?.let {
                 overviewViewModel.createCandleData(it)
             }
         })
 
-        overviewViewModel.candleData.observe(viewLifecycleOwner, Observer {
+        overviewViewModel.candleData.observe(viewLifecycleOwner, {
             it?.let { candleData ->
-
-                Log.i("loadChart", "candle data = ${candleData.toString()}")
                 fragment_overview_chart?.let { chart ->
                     chart.data = candleData
                     chart.invalidate()
@@ -76,5 +68,4 @@ class OverviewFragment : Fragment(R.layout.fragment_overview), OnItemSelectedLis
     override fun onItemSelected(position: Int) {
         overviewViewModel.selectedItem.postValue(position)
     }
-
 }
