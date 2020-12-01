@@ -56,26 +56,37 @@ class MarketDataRepository @Inject constructor(
 
     /** get data for quote */
     suspend fun searchQuote(keyword: String) {
-        marketDataService.searchQuote(keyword).data?.let {
-            val quote = it.quotes.first()
-            val searchQuoteResult = DetailsQuote(
-                symbol = quote.symbol,
-                name = quote.name,
-                lastPrice = Utils.round(quote.lastPrice),
-                netChange = Utils.round(quote.netChange),
-                percentageChange = quote.percentChange,
-                serverTimestamp = LocalDate.now().toString(),
-                previousClose = Utils.round(quote.previousClose),
-                open = Utils.round(quote.open),
-                volume = quote.volume,
-                avgVolume = quote.avgVolume
-            )
-            this.getHistory(keyword)
 
-            quoteDao.clearDetailsTable()
-            quoteDao.insertDetailsQuote(searchQuoteResult)
+        val res = marketDataService.searchQuote(keyword)
+        if(res.data == null) {
+            res.message?.let {
+                val searchQuoteResult = DetailsQuote(symbol = it, isEmpty = true)
+                quoteDao.clearDetailsTable()
+                quoteDao.insertDetailsQuote(searchQuoteResult)
+            }
+        } else {
+            res.data.let {
+                val quote = it.quotes.first()
+                val searchQuoteResult = DetailsQuote(
+                    symbol = quote.symbol,
+                    name = quote.name,
+                    lastPrice = Utils.round(quote.lastPrice),
+                    netChange = Utils.round(quote.netChange),
+                    percentageChange = quote.percentChange,
+                    serverTimestamp = LocalDate.now().toString(),
+                    previousClose = Utils.round(quote.previousClose),
+                    open = Utils.round(quote.open),
+                    volume = quote.volume,
+                    avgVolume = quote.avgVolume
+                )
+                this.getHistory(keyword)
 
+                quoteDao.clearDetailsTable()
+                quoteDao.insertDetailsQuote(searchQuoteResult)
+                return
+            }
         }
+
     }
 
 

@@ -8,7 +8,7 @@ import com.krystofmacek.marketviz.model.databasemodels.*
 
 @Database(
     entities = [MarketIndex::class, DetailsQuote::class, WatchlistQuote::class, Position::class, QuoteHistory::class],
-    version = 11
+    version = 12
 )
 @TypeConverters(Converters::class)
 abstract class QuoteDatabase : RoomDatabase() {

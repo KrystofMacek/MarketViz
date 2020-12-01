@@ -1,6 +1,7 @@
 package com.krystofmacek.marketviz.network
 
 import android.content.Context
+import android.util.Log
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.HistoryResponse
 import com.krystofmacek.marketviz.model.networkmodels.marketdata.QuoteResponse
 import com.krystofmacek.marketviz.utils.*
@@ -93,7 +94,11 @@ class MarketDataService @Inject constructor(
     }
 
     private fun handleQuoteResponse(response: Response<QuoteResponse>): Resource<QuoteResponse> {
-        if(response.isSuccessful) {
+        /** Success but no content return = invalid SYMBOL */
+
+        if(response.body()?.status?.code == 204) {
+            return Resource.error("Invalid Symbol")
+        } else if(response.isSuccessful) {
             response.body()?.let {
                 return Resource.success(it)
             }

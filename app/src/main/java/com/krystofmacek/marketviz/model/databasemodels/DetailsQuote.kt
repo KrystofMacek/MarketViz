@@ -12,13 +12,14 @@ import java.io.Serializable
 class DetailsQuote (
     @PrimaryKey
     val symbol: String,
-    val name: String,
-    val lastPrice: Double,
-    val netChange: Double,
-    val percentageChange: Double,
-    val serverTimestamp: String,
-    val open: Double,
-    val volume: Int,
-    val avgVolume: Int,
-    val previousClose: Double
+    val name: String = "",
+    val lastPrice: Double = 0.0,
+    val netChange: Double = 0.0,
+    val percentageChange: Double = 0.0,
+    val serverTimestamp: String = "",
+    val open: Double = 0.0,
+    val volume: Int = 0,
+    val avgVolume: Int = 0,
+    val previousClose: Double = 0.0,
+    val isEmpty: Boolean = false
 ): Serializable

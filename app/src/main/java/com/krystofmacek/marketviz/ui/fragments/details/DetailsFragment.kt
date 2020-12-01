@@ -46,7 +46,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         detailsViewModel.detailsQuote.observe(viewLifecycleOwner, {
             it?.let {
-                detailsViewModel.loadChart()
+                if(!it.isEmpty) detailsViewModel.loadChart()
             }
         })
 

@@ -41,8 +41,8 @@ class DetailsViewModel @ViewModelInject constructor(
 
     fun loadChart() {
 
-        Log.i("DetailChart", "${detailsQuote.value?.symbol}")
         detailsQuote.value?.symbol?.let { symbol ->
+
             viewModelScope.launch(Dispatchers.IO) {
                 val values = repository.loadHistoryData(symbol)
 
